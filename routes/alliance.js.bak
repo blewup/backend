@@ -1,0 +1,427 @@
+const express = require('express');
+const router = express.Router();
+const { authenticateToken } = require('../middleware/auth');
+const db = require('../models/alliance.js');
+const { Op } = require('sequelize');
+const { allianceValidation } = require('../schemas/validationSchemas');
+const { validateRequest } = require('../middleware/validate');
+  try {
+    const alliance = await db.Alliance.findByPk(req.params.id);
+    
+    if (!alliance) {
+      const error = new Error('Alliance not found');
+      error.status = 404;
+      throw error;
+    }st } = require('../middleware/validate');
+
+router.get('/', async (req, res, next) => {
+  try {
+    const { 
+      page = 1, 
+      limit = 20, 
+      type, 
+      membership_type, 
+      search, 
+      sort_by = 'level',
+      sort_order = 'DESC'
+    } = req.query;
+    
+    const offset = (page - 1) * limit;
+    
+    const whereCondition = {
+      is_public: true,
+      status: 'active',
+      is_recruiting: true
+    };
+    
+    if (type) whereCondition.alliance_type = type;
+    if (membership_type) whereCondition.membership_type = membership_type;
+    if (search) {
+      whereCondition[Op.or] = [
+        { name: { [Op.like]: `%${search}%` } },
+        { tag: { [Op.like]: `%${search}%` } },
+        { description: { [Op.like]: `%${search}%` } }
+      ];
+    }
+
+    const { count, rows: alliances } = await db.Alliance.findAndCountAll({
+      where: whereCondition,
+      include: [
+        {
+          model: db.User,
+          as: 'leader',
+          attributes: ['id', 'username']
+        },
+        {
+          model: db.AllianceMember,
+          as: 'members',
+          where: { status: 'active' },
+          attributes: [],
+          required: false
+        }
+      ],
+      attributes: {
+        include: [
+          [db.sequelize.fn('COUNT', db.sequelize.col('members.id')), 'member_count']
+        ]
+      },
+      group: ['Alliance.id'],
+      order: [[sort_by, sort_order]],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
+      subQuery: false
+    });
+
+    res.json({
+      alliances,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: count.length,
+        pages: Math.ceil(count.length / limit)
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Get alliance details
+router.get('/:id', async (req, res) => {
+  try {
+    const alliance = await db.Alliance.findByPk(req.params.id, {
+      include: [
+        {
+          model: db.User,
+          as: 'leader',
+          attributes: ['id', 'username', 'biography', 'preferred_gameplay_type']
+        },
+        {
+          model: db.AllianceMember,
+          as: 'members',
+          where: { status: 'active' },
+          include: [
+            {
+              model: db.User,
+              as: 'user',
+              attributes: ['id', 'username', 'preferred_gameplay_type', 'last_login']
+            }
+          ],
+          required: false
+        },
+        {
+          model: db.Event,
+          as: 'organizedEvents',
+          where: { event_date: { [Op.gte]: new Date() } },
+          required: false,
+          limit: 5
+        }
+      ]
+    });
+
+    if (!alliance) {
+      return res.status(404).json({ error: 'Alliance not found' });
+    }
+
+    if (!alliance.is_public && (!req.userId || !await alliance.isMember(req.userId))) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    res.json(alliance);
+  } catch (error) {
+    console.error('Get alliance error:', error);
+    res.status(500).json({ error: 'Failed to fetch alliance' });
+  }
+});
+
+// Create new alliance
+router.post('/', [authenticateToken, ...allianceValidation.create, validateRequest], async (req, res, next) => {
+  try {
+    const {
+      name,
+      tag,
+      description,
+      motto,
+      alliance_type = 'mixed',
+      primary_focus,
+      membership_type = 'approval',
+      max_members,
+      min_level_requirement = 1,
+      logo_url,
+      banner_url,
+      color_primary,
+      color_secondary,
+      discord_url,
+      website_url,
+      is_public = true,
+      is_recruiting = true,
+      headquarters_planet,
+      headquarters_galaxy,
+      settings = {},
+      permissions = {}
+    } = req.body;
+
+    // Check if user already leads an alliance
+    const existingAlliance = await db.Alliance.findOne({
+      where: { leader_id: req.userId, status: 'active' }
+    });
+
+    if (existingAlliance) {
+      const error = new Error('You already lead an active alliance');
+      error.status = 400;
+      throw error;
+    }
+
+    // Check if name or tag is taken
+    const existingName = await db.Alliance.findOne({ where: { name } });
+    if (existingName) {
+      const error = new Error('Alliance name already taken');
+      error.status = 400;
+      throw error;
+    }
+
+    if (tag) {
+      const existingTag = await db.Alliance.findOne({ where: { tag } });
+      if (existingTag) {
+        const error = new Error('Alliance tag already taken');
+      error.status = 400;
+      throw error;
+      }
+    }
+
+    const alliance = await db.Alliance.create({
+      leader_id: req.userId,
+      name,
+      tag,
+      description,
+      motto,
+      alliance_type,
+      primary_focus,
+      membership_type,
+      max_members,
+      min_level_requirement,
+      logo_url,
+      banner_url,
+      color_primary,
+      color_secondary,
+      discord_url,
+      website_url,
+      is_public,
+      is_recruiting,
+      headquarters_planet,
+      headquarters_galaxy,
+      settings,
+      permissions,
+      founded_at: new Date()
+    });
+
+    // Add creator as leader member
+    await db.AllianceMember.create({
+      alliance_id: alliance.id,
+      user_id: req.userId,
+      role: 'leader',
+      status: 'active',
+      joined_at: new Date()
+    });
+
+    // Log activity
+    await db.UserActivity.logActivity(req.userId, {
+      activity_type: 'content_created',
+      activity_description: `Created alliance: ${name}`,
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      related_entity_type: 'alliance',
+      related_entity_id: alliance.id
+    });
+
+    res.status(201).json({
+      message: 'Alliance created successfully',
+      alliance
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Update alliance
+router.put('/:id', [authenticateToken, ...allianceValidation.update, validateRequest], async (req, res, next) => {
+  try {
+    const alliance = await db.Alliance.findByPk(req.params.id);
+    
+    if (!alliance) {
+      return res.status(404).json({ error: 'Alliance not found' });
+    }
+
+    // Check if user is leader or admin
+    const member = await db.AllianceMember.findOne({
+      where: {
+        alliance_id: alliance.id,
+        user_id: req.userId,
+        status: 'active',
+        role: { [Op.in]: ['leader', 'admin'] }
+      }
+    });
+
+    if (!member) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+
+    const allowedUpdates = [
+      'description', 'motto', 'alliance_type', 'primary_focus', 'membership_type',
+      'max_members', 'min_level_requirement', 'logo_url', 'banner_url',
+      'color_primary', 'color_secondary', 'discord_url', 'website_url',
+      'is_public', 'is_recruiting', 'headquarters_planet', 'headquarters_galaxy',
+      'settings', 'permissions'
+    ];
+
+    const updateData = {};
+    allowedUpdates.forEach(field => {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    });
+
+    await alliance.update(updateData);
+
+    // Log activity
+    await db.UserActivity.logActivity(req.userId, {
+      activity_type: 'content_created',
+      activity_description: `Updated alliance: ${alliance.name}`,
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      related_entity_type: 'alliance',
+      related_entity_id: alliance.id
+    });
+
+    res.json({
+      message: 'Alliance updated successfully',
+      alliance
+    });
+  } catch (error) {
+    console.error('Update alliance error:', error);
+    res.status(500).json({ error: 'Failed to update alliance' });
+  }
+});
+
+// Disband alliance
+router.delete('/:id', authenticateToken, async (req, res) => {
+  try {
+    const alliance = await db.Alliance.findByPk(req.params.id);
+    
+    if (!alliance) {
+      return res.status(404).json({ error: 'Alliance not found' });
+    }
+
+    // Only leader can disband alliance
+    if (alliance.leader_id !== req.userId) {
+      return res.status(403).json({ error: 'Only alliance leader can disband the alliance' });
+    }
+
+    await alliance.update({
+      status: 'disbanded',
+      disbanded_at: new Date(),
+      is_recruiting: false
+    });
+
+    // Update all members to left status
+    await db.AllianceMember.update(
+      { status: 'left', left_at: new Date(), leave_reason: 'Alliance disbanded' },
+      { where: { alliance_id: alliance.id, status: 'active' } }
+    );
+
+    // Log activity
+    await db.UserActivity.logActivity(req.userId, {
+      activity_type: 'content_created',
+      activity_description: `Disbanded alliance: ${alliance.name}`,
+      ip_address: req.ip,
+      user_agent: req.get('User-Agent'),
+      related_entity_type: 'alliance',
+      related_entity_id: alliance.id
+    });
+
+    res.json({ message: 'Alliance disbanded successfully' });
+  } catch (error) {
+    console.error('Disband alliance error:', error);
+    res.status(500).json({ error: 'Failed to disband alliance' });
+  }
+});
+
+// Get alliance statistics
+router.get('/:id/stats', async (req, res) => {
+  try {
+    const alliance = await db.Alliance.findByPk(req.params.id);
+    
+    if (!alliance) {
+      return res.status(404).json({ error: 'Alliance not found' });
+    }
+
+    if (!alliance.is_public && (!req.userId || !await alliance.isMember(req.userId))) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    const memberCount = await alliance.getMemberCount();
+    const activityStats = await db.AllianceMember.findAll({
+      where: { alliance_id: alliance.id, status: 'active' },
+      attributes: [
+        [db.sequelize.fn('AVG', db.sequelize.col('activity_score')), 'avg_activity'],
+        [db.sequelize.fn('SUM', db.sequelize.col('total_contributions')), 'total_contributions'],
+        [db.sequelize.fn('SUM', db.sequelize.col('xp_earned')), 'total_xp_earned']
+      ]
+    });
+
+    const roleDistribution = await db.AllianceMember.findAll({
+      where: { alliance_id: alliance.id, status: 'active' },
+      attributes: [
+        'role',
+        [db.sequelize.fn('COUNT', db.sequelize.col('id')), 'count']
+      ],
+      group: ['role']
+    });
+
+    res.json({
+      member_count: memberCount,
+      activity_stats: activityStats[0],
+      role_distribution: roleDistribution,
+      level: alliance.level,
+      total_xp: alliance.total_xp,
+      reputation: alliance.reputation,
+      treasury_balance: alliance.treasury_balance
+    });
+  } catch (error) {
+    console.error('Get alliance stats error:', error);
+    res.status(500).json({ error: 'Failed to fetch alliance statistics' });
+  }
+});
+
+// Search alliances by name or tag
+router.get('/search/:query', async (req, res) => {
+  try {
+    const { query } = req.params;
+    
+    const alliances = await db.Alliance.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${query}%` } },
+          { tag: { [Op.like]: `%${query}%` } }
+        ],
+        is_public: true,
+        status: 'active'
+      },
+      include: [
+        {
+          model: db.User,
+          as: 'leader',
+          attributes: ['id', 'username']
+        }
+      ],
+      limit: 10
+    });
+
+    res.json(alliances);
+  } catch (error) {
+    console.error('Search alliances error:', error);
+    res.status(500).json({ error: 'Failed to search alliances' });
+  }
+});
+
+module.exports = router;
