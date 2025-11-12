@@ -1,0 +1,539 @@
+/* ----------------------------------------------------------------------------
+ * Navbar Layout
+ * ------------------------------------------------------------------------- */
+.navbar {
+    display: grid;
+    top: 4vh;
+    left: 8vw;
+    right: 0;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: repeat(2, minmax(6vh, 1fr));
+    align-items: stretch;
+    column-gap: 1.5rem;
+    row-gap: 0.35rem;
+    width: 92vw;
+    min-height: var(--navbar-height);
+    background-color: var(--content-bg);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    padding: 0.85rem 1.5rem;
+    margin: 0 auto;
+    position: fixed;
+    z-index: 20;
+    transition: var(--theme-transition);
+}
+
+.navbar > * {
+    align-self: stretch;
+}
+
+.nav-left {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    align-items: center;
+}
+
+.top-nav-left {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.top-nav-right {
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.main-nav-left {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+}
+
+.main-nav-right {
+    grid-column: 3;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.site-logo img {
+    width: clamp(110px, 14vw, 160px);
+    height: auto;
+    object-fit: contain;
+    transition: var(--theme-transition);
+}
+
+.toolbar {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.theme-toggle,
+.lang-toggle,
+.mobile-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.6rem;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    font-family: 'Black Ops One Regular', cursive;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle:hover,
+.lang-toggle:hover,
+.mobile-menu-toggle:hover {
+    background: var(--text-color);
+    color: var(--page-bg);
+    border-color: var(--text-color);
+}
+
+.theme-icon {
+    font-size: 1.1rem;
+}
+
+.theme-icon.dark { display: none; }
+[data-theme="dark"] .theme-icon.dark { display: inline; }
+[data-theme="dark"] .theme-icon.light { display: none; }
+
+.nav-links {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-links.inactive {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+}
+
+.menuitem {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.menuitem a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0.35rem .8rem;
+    border-radius: 0.55rem;
+    text-decoration: none;
+    color: var(--text-color);
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    font-size: clamp(0.78rem, 1.4vh, 0.92rem);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menuitem a:hover,
+.menuitem a:focus-visible {
+    background-color: var(--text-color);
+    color: var(--page-bg);
+}
+
+.menuitem a.active {
+    background-color: var(--text-color);
+    color: var(--page-bg);
+}
+
+.sidebar-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.55rem;
+    border: 1px solid transparent;
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    font-size: clamp(0.78rem, 1.4vh, 0.92rem);
+    background: transparent;
+    color: var(--text-color);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.sidebar-toggle-btn:hover,
+.sidebar-toggle-btn:focus-visible {
+    background: var(--text-color);
+    color: var(--page-bg);
+}
+
+.sidebar-toggle-btn.active {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.sidebar-icon {
+    display: inline-flex;
+    width: 1.75rem;
+    height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar {
+    position: fixed;
+    top: var(--sidebar-top, 16vh);
+    left: var(--sidebar-left, 8vw);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: max-content;
+    min-width: clamp(13.5rem, 22vw, 16.5rem);
+    max-width: clamp(15.5rem, 26vw, 18rem);
+    padding: 1.35rem 1.65rem;
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 120;
+}
+
+.sidebar.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.sidebar-title {
+    margin: 0 0 1rem;
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.6rem;
+    background: transparent;
+    color: var(--text-color);
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-link i {
+    flex: 0 0 auto;
+    font-size: 1rem;
+    margin-top: 0.15rem;
+}
+
+.sidebar-link span {
+    flex: 1 1 100%;
+    display: block;
+    white-space: normal;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus-visible,
+.sidebar-link.active {
+    background: var(--accent-color);
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.55rem;
+    border: 1px solid transparent;
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    font-size: clamp(0.78rem, 1.4vh, 0.92rem);
+    color: var(--text-color);
+    background: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-trigger:hover,
+.dropdown-trigger:focus-visible {
+    background: var(--text-color);
+    color: var(--page-bg);
+}
+
+.dropdown-trigger.active {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.dropdown-icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 0.45rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    position: fixed;
+    top: var(--dropdown-top, 16vh);
+    right: var(--dropdown-right, 8vw);
+    left: auto;
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    width: var(--dropdown-width, max-content);
+    max-width: min(62vw, 720px);
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    box-shadow: 0 24px 52px rgba(0, 0, 0, 0.35);
+    padding: 0.85rem 1.1rem;
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 120;
+}
+
+.dropdown-content.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.about-menu {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.about-menu ul {
+    display: flex;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.about-menu li {
+    display: flex;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.55rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus-visible {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.dropdown-item.active {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.dropdown-anchor-placeholder,
+.sidebar-anchor-placeholder {
+    display: none !important;
+}
+
+.mobile-menu-toggle {
+    display: none;
+}
+
+.mobile-dropdown-content {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 1.5rem;
+    width: min(260px, 85vw);
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.9rem;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.25);
+    padding: 0.5rem 0.75rem;
+    transform: translateY(-12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    z-index: 60;
+}
+
+.mobile-dropdown-content.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobile-dropdown-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.mobile-dropdown-item {
+    display: block;
+    padding: 0.55rem 0.65rem;
+    border-radius: 0.55rem;
+    font-family: 'Black Ops One Regular', 'Black Ops One', cursive;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-dropdown-item:hover,
+.mobile-dropdown-item:focus-visible,
+.mobile-dropdown-item.active {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ----------------------------------------------------------------------------
+ * Responsive Adjustments
+ * ------------------------------------------------------------------------- */
+@media (max-width: 1080px) {
+    .navbar {
+        column-gap: 1rem;
+        padding: 0;
+    }
+
+    .menuitem a {
+        padding: 0 0.85rem;
+    }
+}
+
+@media (max-width: 720px) {
+    .navbar {
+        grid-template-columns: auto auto auto;
+        column-gap: 0.85rem;
+        padding: 0;
+    }
+
+    .main-nav-left {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex;
+    }
+
+    .sidebar {
+        left: 0.75rem;
+        right: 0.75rem;
+        width: auto;
+        min-width: unset;
+        max-width: unset;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        grid-template-columns: auto auto;
+        grid-template-rows: auto auto auto;
+        row-gap: 0.4rem;
+        padding: 0;
+    }
+
+    .top-nav-left {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .top-nav-right {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .main-nav-right {
+        grid-column: 1 / span 2;
+        grid-row: 3;
+        justify-content: flex-start;
+    }
+
+    .dropdown-content,
+    .mobile-dropdown-content {
+        left: 0.75rem;
+        right: 0.75rem;
+        width: auto;
+        max-width: none;
+    }
+
+    .sidebar {
+        left: 0.75rem;
+        right: 0.75rem;
+        width: auto;
+    }
+}

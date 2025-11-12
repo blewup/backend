@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier des Événements 2025-2026</title>
+    <!-- Chargement de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Définition des variables de couleur et des polices */
+        :root[data-theme="light"] {
+            --color-bg: #f3f4f6; /* bg-gray-100 */
+            --color-bg-card: #ffffff; /* bg-white */
+            --text-color: #1f2937; /* text-gray-800 */
+            --text-color-muted: #4b5563; /* text-gray-600 */
+            --success-color: #059669; /* Vert */
+            --error-color: #dc2626; /* Rouge */
+            --warning-color: #f59e0b; /* Jaune */
+            --calendar-hover-bg: #3b82f6; /* Bleu */
+            --special-color: #a855f7; /* Mauve Fluo */
+            --high-demand-color: #f97316; /* Orange */
+            --dark-gray-color: #4b5563;
+        }
+        
+        body {
+            font-family: "Raleway", sans-serif;
+            background-color: var(--color-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: "Black Ops One", system-ui;
+        }
+
+        a, .link {
+            font-family: "Comic Neue", sans-serif;
+            color: var(--calendar-hover-bg);
+            cursor: pointer;
+        }
+        
+        button, .btn {
+            cursor: pointer;
+        }
+
+        /* --- STYLES DES JOURS DU CALENDRIER --- */
+        
+        .day-cell {
+            /* Changé de 'crosshair' à 'default' car non cliquable */
+            cursor: default;
+            position: relative;
+            overflow: hidden; /* Pour le "M" */
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+        
+        /* Couleurs de base des cellules */
+        .day-cell.selected {
+            background-color: var(--calendar-hover-bg);
+            background-image: none;
+            color: white !important;
+        }
+        .day-cell.unavailable {
+            background-color: #fecaca; /* bg-red-200 */
+            color: #9ca3af; /* text-gray-400 */
+            cursor: not-allowed;
+            background-image: none;
+        }
+        .day-cell.available {
+            background-color: var(--success-color);
+            background-image: none;
+            color: var(--text-color);
+        }
+        
+        .day-cell.bg-high-demand { background-color: var(--high-demand-color); }
+        .day-cell.bg-holiday { background-color: var(--error-color); color: var(--text-color); }
+        .day-cell.bg-event { background-color: var(--warning-color); color: var(--text-color); }
+        .day-cell.bg-after-june { background-color: var(--calendar-hover-bg); color: white; }
+        .stamp-m {
+            position: absolute;
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: blue;
+            opacity: 0.2;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            pointer-events: none;
+        }
+
+        /* Rayures */
+        .bg-striped-holiday {
+            background: repeating-linear-gradient(-45deg, var(--success-color), var(--success-color) 8px, var(--error-color) 8px, var(--error-color) 16px);
+            text-decoration: underline;
+        }
+        .bg-striped-halloween {
+            background: repeating-linear-gradient(-45deg, var(--high-demand-color), var(--high-demand-color) 8px, var(--dark-gray-color) 8px, var(--dark-gray-color) 16px);
+        }
+        .bg-striped-spring-break {
+             background: repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 8px, var(--dark-gray-color) 8px, var(--dark-gray-color) 16px);
+        }
+        .bg-striped-summer {
+             background: repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 8px, var(--success-color) 8px, var(--success-color) 16px);
+        }
+        
+        .day-cell:not(.unavailable):not(.selected) {
+            background-color: color-mix(in srgb, var(--cell-color, var(--success-color)) 45%, transparent);
+            color: var(--text-color);
+        }
+        
+        /* Styles pour la Grille Calendrier */
+        #calendar-grid-container {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* Mobile: 1 colonne */
+            gap: 2rem;
+        }
+        @media (min-width: 768px) { /* md: */
+            #calendar-grid-container {
+                grid-template-columns: repeat(2, 1fr); /* Desktop: 2 colonnes */
+            }
+        }
+
+        .calendar-month-grid {
+            background-color: var(--color-bg-card);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1rem 1.5rem;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px; 
+        }
+        .calendar-grid .day-header {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-color-muted);
+            text-align: center;
+        }
+        
+        /* Styles pour la Légende (Charte) */
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .legend-color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Styles pour l'aperçu du Footer */
+        #footer-preview-modal-content {
+            display: flex;
+            flex-direction: row; 
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+        #footer-calendar-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1rem;
+            width: 26vw; 
+            min-width: 300px; 
+        }
+        /* Overrides pour les mini-calendriers */
+        .footer-calendar .calendar-grid {
+            gap: 1px;
+        }
+        .footer-calendar .day-cell {
+            font-size: 0.5rem; 
+            padding: 0;
+            height: 12px;
+            width: 100%;
+            border-radius: 2px;
+        }
+        .footer-calendar .day-header {
+            font-size: 0.6rem;
+            font-weight: 500;
+        }
+        .footer-calendar .stamp-m {
+            font-size: 0.8rem;
+        }
+        /* Légende du footer */
+        #footer-legend-container {
+            flex-shrink: 0;
+            width: 200px; 
+        }
+        .footer-legend .legend-color-box {
+            width: 15px;
+            height: 15px;
+        }
+        .footer-legend .legend-item {
+            margin-bottom: 0.25rem;
+        }
+        .footer-legend span {
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto relative">
+        
+        <!-- Bouton de langue -->
+        <div class="absolute top-4 right-4 md:top-8 md:right-8 z-20">
+            <button id="lang-toggle" class="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75" style="font-family: 'Comic Neue', sans-serif;">
+                EN
+            </button>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-8">2025 - 2026</h1>
+
+        <!-- Conteneur "Page Événement" -->
+        <div id="main-calendar-view" class="mb-8">
+            <!-- Grille pour 2 mois -->
+            <div id="calendar-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Les calendriers (2) seront insérés ici par JavaScript -->
+            </div>
+            
+            <!-- Légende (Charte) Principale -->
+            <div id="main-legend" class="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg" style="background-color: var(--color-bg-card);">
+                <h3 class="text-xl font-semibold mb-4" data-lang="legendTitle">Légende</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- La légende sera insérée ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer avec lien -->
+    <footer class="text-center mt-12 py-4 border-t border-gray-300">
+        <button id="footer-calendar-toggle" class="text-lg link font-semibold">
+            <i class="fas fa-calendar-alt mr-2"></i><span data-lang="footerLink">Calendrier :</span> <span data-lang="footerLinkView">Aperçu</span>
+        </button>
+    </footer>
+
+    <!-- Modale pour l'Aperçu du Footer -->
+    <div id="footer-preview-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-xl" style="background-color: var(--color-bg-card);">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold" data-lang="footerPreviewTitle">Aperçu du Calendrier</h3>
+                <button id="footer-preview-close" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <!-- Contenu de la modale (calendriers + légende) -->
+            <div id="footer-preview-modal-content">
+                <div id="footer-calendar-container">
+                    <!-- Mini-calendriers insérés ici -->
+                </div>
+                <div id="footer-legend-container" class="footer-legend">
+                    <!-- Légende simplifiée insérée ici -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // === DOM Elements ===
+            const calendarGridContainer = document.getElementById('calendar-grid-container');
+            
+            // Footer
+            const footerToggle = document.getElementById('footer-calendar-toggle');
+            const footerPreviewModal = document.getElementById('footer-preview-modal');
+            const footerPreviewClose = document.getElementById('footer-preview-close');
+            const footerCalendarContainer = document.getElementById('footer-calendar-container');
+            const footerLegendContainer = document.getElementById('footer-legend-container');
+            const mainLegendContainer = document.querySelector('#main-legend .grid');
+            
+            // Infos
+            const langToggle = document.getElementById('lang-toggle');
+
+            // === State ===
+            
+            // FORCER LA DATE (comme demandé: Nov 1 2025)
+            const today = new Date(2025, 10, 1); // 10 = Novembre
+            
+            const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const twoWeeksFromNow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 14);
+            const twoMonthsFromNow = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
+
+            // 'selections' est conservé pour colorer les jours 'selected' (bleu) si nécessaire,
+            // mais il ne peut pas être modifié par l'utilisateur.
+            const selections = {}; 
+            let currentLang = 'fr';
+            
+            // === Traductions (uiStrings) ===
+            const uiStrings = {
+                fr: {
+                    dayNames: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                    locale: 'fr-FR',
+                    weekDay: 'long',
+                    toggleLang: 'EN',
+                    legendTitle: 'Légende',
+                    footerLink: 'Calendrier :',
+                    footerLinkView: 'Aperçu',
+                    footerPreviewTitle: 'Aperçu du Calendrier',
+                    legend: {
+                        "available": "Disponible (Semaine)",
+                        "weekend_soon": "Disponible (FDS / Sur-demande)",
+                        "selected": "Votre sélection", // Conservé au cas où
+                        "event": "Événement (Bourse)",
+                        "holiday_period": "Congé des Fêtes (Souligné)",
+                        "spring_break": "Relâche (Bleu/Gris)",
+                        "summer": "Estival (Bleu/Vert)",
+                        "after_june": "Après 1er Juin (Bleu 'M')",
+                        "unavailable": "Passé / Indisponible"
+                    },
+                    footerLegend: {
+                        "available": "Disponible",
+                        "selected": "Sélection",
+                        "holiday_period": "Congés",
+                        "unavailable": "Indisponible"
+                    }
+                },
+                en: {
+                    dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    locale: 'en-US',
+                    weekDay: 'long',
+                    toggleLang: 'FR',
+                    legendTitle: 'Legend',
+                    footerLink: 'Calendar:',
+                    footerLinkView: 'Preview',
+                    footerPreviewTitle: 'Calendar Preview',
+                    legend: {
+                        "available": "Available (Weekday)",
+                        "weekend_soon": "Available (Weekend / High-demand)",
+                        "selected": "Your Selection",
+                        "event": "Event (Bourse)",
+                        "holiday_period": "Holidays (Underlined)",
+                        "spring_break": "Spring Break (Blue/Grey)",
+                        "summer": "Summer (Blue/Green)",
+                        "after_june": "After June 1st (Blue 'M')",
+                        "unavailable": "Past / Unavailable"
+                    },
+                    footerLegend: {
+                        "available": "Available",
+                        "selected": "Selection",
+                        "holiday_period": "Holidays",
+                        "unavailable": "Unavailable"
+                    }
+                }
+            };
+
+            // === Fonction de Traduction ===
+            
+            function setLanguage(lang) {
+                currentLang = lang;
+                const s = uiStrings[lang];
+                document.documentElement.lang = lang;
+                
+                // Traduction des éléments statiques
+                document.querySelectorAll('[data-lang]').forEach(el => {
+                    const key = el.dataset.lang;
+                    if (s[key]) el.textContent = s[key];
+                });
+                
+                langToggle.textContent = s.toggleLang;
+
+                // Recréer les éléments dynamiques
+                generateCalendars(); // Grille principale (2 mois)
+                generateFooterCalendars(); // Aperçu footer (2 mois)
+                populateLegends(); // Les deux légendes
+            }
+
+            // === Fonctions Logiques (Couleurs, Dates) ===
+            
+            function getSpecialDayInfo(date) {
+                const y = date.getFullYear();
+                const m = date.getMonth(); // 0-11
+                const d = date.getDate();
+                const dayOfWeek = date.getDay();
+ 
+                // 1. Jours passés
+                if (date < todayDateOnly) {
+                    return { type: 'unavailable', class: 'unavailable', cssVar: 'var(--error-color)', stamp: null };
+                }
+ 
+                // 2. Événement "Bourse" (jusqu'au 21 Nov 2025)
+                if (y === 2025 && m === 10 && d <= 21) {
+                    return { type: 'event', class: 'bg-event', cssVar: 'var(--warning-color)', stamp: null };
+                }
+                
+                // 3. Après le 1er Juin 2026
+                if (date >= new Date(2026, 5, 1)) {
+                     return { type: 'after_june', class: 'bg-after-june', cssVar: 'var(--calendar-hover-bg)', stamp: 'M' };
+                }
+                
+                // 4. Période estivale (Juin, Juillet, Août 2026)
+                if (y === 2026 && m >= 5 && m <= 7) {
+                    return { type: 'summer', class: 'bg-striped-summer', cssVar: 'var(--success-color)', stamp: null };
+                }
+
+                // 5. Halloween
+                if (m === 9 && d === 31) {
+                    return { type: 'holiday', class: 'bg-striped-halloween', cssVar: 'var(--high-demand-color)', stamp: null };
+                }
+                
+                // 6. Période des Fêtes (22 Déc au 9 Jan)
+                if ((y === 2025 && m === 11 && d >= 22) || (y === 2026 && m === 0 && d <= 9)) {
+                    return { type: 'holiday_period', class: 'bg-striped-holiday', cssVar: 'var(--error-color)', stamp: null };
+                }
+                
+                // 7. Semaine de relâche (Semaine du 2 Mars 2026)
+                if (y === 2026 && m === 2 && d >= 2 && d <= 6) {
+                    return { type: 'spring_break', class: 'bg-striped-spring-break', cssVar: 'var(--calendar-hover-bg)', stamp: null };
+                }
+                
+                // 8. Logique des Week-ends
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    if (date < twoWeeksFromNow) return { type: 'unavailable', class: 'unavailable', cssVar: 'var(--error-color)', stamp: null };
+                    if (date >= twoWeeksFromNow && date <= twoMonthsFromNow) return { type: 'weekend_soon', class: 'bg-high-demand', cssVar: 'var(--high-demand-color)', stamp: null };
+                    else return { type: 'unavailable', class: 'unavailable', cssVar: 'var(--error-color)', stamp: null };
+                }
+                
+                // 9. Jours de semaine normaux
+                return { type: 'available', class: 'available', cssVar: 'var(--success-color)', stamp: null };
+            }
+ 
+            // === Fonctions de Rendu ===
+
+            /**
+             * Crée UN calendrier pour un mois donné
+             */
+            function createMonthCalendar(date, context = 'main') {
+                const s = uiStrings[currentLang];
+                const dayNames = s.dayNames;
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const monthName = date.toLocaleString(s.locale, { month: 'long' });
+                const monthNumber = month + 1;
+
+                // Conteneur principal
+                const monthWrapper = document.createElement('div');
+                if (context === 'main') {
+                    monthWrapper.className = 'calendar-month-grid';
+                } else { // 'footer'
+                    monthWrapper.className = 'footer-calendar';
+                }
+
+                const title = document.createElement('h2');
+                title.className = 'text-center mb-4';
+                title.textContent = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} - ${monthNumber}`;
+                if(context === 'main') title.className += ' text-2xl font-semibold';
+                else title.className += ' text-lg font-semibold';
+                monthWrapper.appendChild(title);
+
+                const daysGrid = document.createElement('div');
+                daysGrid.className = 'calendar-grid';
+
+                dayNames.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = (context === 'main') ? 'day-header' : 'day-header text-center';
+                    dayHeader.textContent = day;
+                    daysGrid.appendChild(dayHeader);
+                });
+
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                for (let j = 0; j < firstDayOfMonth; j++) {
+                    daysGrid.appendChild(document.createElement('div'));
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = document.createElement('div');
+                    const dayDate = new Date(year, month, day);
+                    const dateString = dayDate.toISOString().split('T')[0];
+                    const dayInfo = getSpecialDayInfo(dayDate);
+
+                    dayCell.textContent = day;
+                    dayCell.className = 'day-cell rounded-md';
+                    dayCell.dataset.date = dateString;
+                    dayCell.classList.add(dayInfo.class);
+                    dayCell.style.setProperty('--cell-color', dayInfo.cssVar);
+
+                    if (dayInfo.stamp === 'M') {
+                        const stamp = document.createElement('span');
+                        stamp.className = 'stamp-m';
+                        stamp.textContent = 'M';
+                        dayCell.appendChild(stamp);
+                    }
+                    
+                    if (selections[dateString] && selections[dateString].length > 0) {
+                        dayCell.classList.remove('available', dayInfo.class);
+                        dayCell.classList.add('selected');
+                    } else if (dayInfo.type === 'past' || dayInfo.type === 'unavailable') {
+                         dayCell.classList.add('unavailable');
+                         dayCell.classList.remove('available');
+                    }
+                    
+                    daysGrid.appendChild(dayCell);
+                }
+                
+                monthWrapper.appendChild(daysGrid);
+                return monthWrapper;
+            }
+            
+            /**
+             * Génère les 2 calendriers pour la grille principale
+             */
+            function generateCalendars() {
+                calendarGridContainer.innerHTML = '';
+                // Commence au mois actuel (Nov 2025, basé sur 'today')
+                const startMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                const totalMonths = 2;
+                
+                for (let i = 0; i < totalMonths; i++) {
+                    const currentMonth = new Date(startMonth.getFullYear(), startMonth.getMonth() + i, 1);
+                    const calendarEl = createMonthCalendar(currentMonth, 'main');
+                    calendarGridContainer.appendChild(calendarEl);
+                }
+            }
+
+            /**
+             * Génère les 2 calendriers pour l'aperçu du footer
+             */
+            function generateFooterCalendars() {
+                footerCalendarContainer.innerHTML = '';
+                const startMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                const totalMonths = 2;
+                
+                for (let i = 0; i < totalMonths; i++) {
+                    const currentMonth = new Date(startMonth.getFullYear(), startMonth.getMonth() + i, 1);
+                    const calendarEl = createMonthCalendar(currentMonth, 'footer');
+                    footerCalendarContainer.appendChild(calendarEl);
+                }
+            }
+
+            /**
+             * Remplit les deux légendes (principale et footer)
+             */
+            function populateLegends() {
+                const s = uiStrings[currentLang];
+                mainLegendContainer.innerHTML = '';
+                footerLegendContainer.innerHTML = '';
+                
+                // Définition des couleurs pour les légendes
+                const legendColors = {
+                    "available": "var(--success-color)",
+                    "weekend_soon": "var(--high-demand-color)",
+                    "selected": "var(--calendar-hover-bg)",
+                    "event": "var(--warning-color)",
+                    "holiday_period": "var(--error-color)", 
+                    "spring_break": "var(--calendar-hover-bg)",
+                    "summer": "var(--success-color)",
+                    "after_june": "var(--calendar-hover-bg)",
+                    "unavailable": "#fecaca" // bg-red-200
+                };
+                
+                // 1. Légende Principale (détaillée)
+                for (const key in s.legend) {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const colorBox = document.createElement('div');
+                    colorBox.className = 'legend-color-box';
+                    colorBox.style.backgroundColor = legendColors[key];
+                    if(key === 'holiday_period') colorBox.style.background = 'repeating-linear-gradient(-45deg, var(--success-color), var(--success-color) 4px, var(--error-color) 4px, var(--error-color) 8px)';
+                    if(key === 'spring_break') colorBox.style.background = 'repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 4px, var(--dark-gray-color) 4px, var(--dark-gray-color) 8px)';
+                    if(key === 'summer') colorBox.style.background = 'repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 4px, var(--success-color) 4px, var(--success-color) 8px)';
+                    
+                    const text = document.createElement('span');
+                    text.className = 'text-sm';
+                    text.textContent = s.legend[key];
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(text);
+                    mainLegendContainer.appendChild(item);
+                }
+
+                // 2. Légende Footer (simplifiée)
+                 for (const key in s.footerLegend) {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const colorBox = document.createElement('div');
+                    colorBox.className = 'legend-color-box';
+                    colorBox.style.backgroundColor = legendColors[key];
+                    
+                    const text = document.createElement('span');
+                    text.className = 'text-sm';
+                    text.textContent = s.footerLegend[key];
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(text);
+                    footerLegendContainer.appendChild(item);
+                }
+            }
+
+
+            // === Logique des Modales (Clics) ===
+            
+            // Clics pour l'aperçu du footer
+            function toggleFooterPreview(show = true) {
+                if(show) footerPreviewModal.classList.remove('hidden');
+                else footerPreviewModal.classList.add('hidden');
+            }
+            footerToggle.addEventListener('click', () => toggleFooterPreview(true));
+            footerPreviewClose.addEventListener('click', () => toggleFooterPreview(false));
+
+            // Clic pour la langue
+            langToggle.addEventListener('click', () => {
+                setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+            });
+
+            // === Initialisation ===
+            setLanguage('fr'); // Appel initial
+        });
+    </script>
+</body>
+</html>

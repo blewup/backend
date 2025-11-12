@@ -1,0 +1,529 @@
+/* ========================================
+   LOGO OVERLAY SYSTEM
+   ======================================== */
+
+.logo-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 60;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.logo-overlay.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+
+.logo-overlay.active .logo-overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-backdrop-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+}
+
+
+.logo-overlay-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 86vw;
+    height: 80vh;
+    animation: logoZoomIn 0.5s ease-out;
+    z-index: 65;
+}
+
+.logo-overlay-image {
+    width: 86vw;
+    height: 80vh;
+    max-width: 86vw;
+    max-height: 80vh;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    filter: drop-shadow(0 10px 30px var(--shadow-color));
+    opacity: 0.95;
+}
+
+
+.logo-overlay-image:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* Logo Overlay Animations */
+@keyframes logoZoomIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Theme-specific logo overlay visibility */
+[data-theme='light'] .logo-overlay.active .dark {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+[data-theme='dark'] .logo-overlay.active .light {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+[data-theme='light'] .logo-overlay.active .light {
+    display: flex;
+    visibility: visible;
+    opacity: 0.9;
+    pointer-events: all
+}
+
+[data-theme='dark'] .logo-overlay.active .dark {
+    display: flex;
+    visibility: visible;
+    opacity: 0.9;
+    pointer-events: all
+}
+
+/* ========================================
+   ADVERTISEMENT OVERLAY SYSTEM
+   ======================================== */
+
+.adv-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 60;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.adv-overlay.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Ad Overlay Backdrop */
+.adv-overlay.active .backdrop {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    background: var(--overlay-backdrop-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 60;
+}
+
+.adv-overlay.active .ad-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
+
+.ad-content {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 65;
+}
+
+/* Hyperlink Image in Ad */
+.adv-overlay .hyperlink-image {
+    width: 40vw;
+    height: 80vh;
+    width: auto;
+    height: auto;
+    border-radius: 24px;
+    box-shadow: 0 12px 32px var(--shadow-color);
+    transition: transform 0.01s ease, box-shadow 0.3s ease;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.95;
+}
+
+.adv-overlay .hyperlink-image:hover {
+    transform: scale(1.03);
+    opacity: 1;
+    cursor: pointer;
+    box-shadow: 0 16px 40px var(--shadow-color);
+}
+
+/* Close Ad Button */
+.close-ad {
+    position: relative;
+    top: 3.2vh;
+    right: -18vw;
+    background: var(--accent-color);
+    color: white;
+    border: 3px solid var(--border-color);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-self: right;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: all 0.5s ease;
+    z-index: 75;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0.95;
+}
+
+.close-ad:hover {
+    background: var(--error-color);
+    transform: rotate(90deg) scale(1.05);
+    cursor: pointer;
+    color: white;
+    opacity: 1;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Ad Animations */
+@keyframes adSlideIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+    CALENDAR MODAL STYLES
+   ======================================== */
+
+.calendar-modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 65;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.calendar-modal-overlay.active {
+    display: flex;
+    pointer-events: all;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    visibility: visible;
+    opacity: 0.9;
+}
+
+.calendar-modal {
+    background: var(--content-bg);
+    border-radius: 15%;
+    padding: 2vw;
+    width: 90vw;
+    max-height: 90vh;
+    position: relative;
+    box-shadow: 0 10px 40px var(--shadow-color);
+}
+
+.calendar-modal-close {
+    position: relative;
+    top: -0.85vh;
+    right: -0.85vh;
+    background: var(--accent-color);
+    color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 2.4vw;
+    height: 2.4vw;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    z-index: 70;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.calendar-modal-close:hover {
+    background: var(--hover-bg);
+    cursor: pointer;
+    transform: scale(1.05), rotate(90deg);
+}
+
+.calendar-modal h2 {
+    margin-bottom: 2.5vh;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.container-calendar.active .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 0.3vw;
+    margin-bottom: 2.5vh;
+}
+
+.container-calendar {
+    background: var(--page-bg);
+    border-radius: 8px;
+    padding: 1.8vw;
+    border: 1px solid var(--border-color);
+}
+
+.container-calendar.active {
+    display: grid;
+    grid-template-columns: 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr;
+    grid-template-rows: 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr 1fr 0.2fr;
+}
+
+.calendar-header h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 1.85rem;
+    text-transform: uppercase;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-row: repeat(5, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+    font-weight: 520px;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.calendar-weekdays div {
+    padding: 8px 0;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    background: var(--content-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 4px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.calendar-day.blank {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+.calendar-day:not(.blank):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.calendar-day .day-number {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.time-windows {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.time-window {
+    font-size: 0.75rem;
+    padding: 5px 4px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.time-window.vacant {
+    background: var(--success-color);
+}
+
+.time-window.taken {
+    background: var(--error-color);
+}
+
+.calendar-day.weekend {
+    background: rgba(241, 94, 104, 0.1);
+}
+
+.calendar-day.weekend .time-window {
+    background: var(--error-color);
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.legend-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.legend-box.vacant {
+    background: var(--success-color);
+}
+
+.legend-box.taken {
+    background: var(--error-color);
+}
+
+.legend-box.weekend {
+    background: rgba(241, 94, 104, 0.3);
+    border: 2px solid var(--error-color);
+}
+
+.clickable-date {
+    cursor: pointer;
+    color: var(--success-color);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.clickable-date:hover {
+    color: var(--accent-color);
+}
+
+/* Responsive calendar */
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-modal {
+        padding: 20px;
+    }
+
+    .calendar-day {
+        min-height: 70px;
+        padding: 6px 3px;
+    }
+
+    .time-window {
+        font-size: 0.65rem;
+        padding: 2px 1px;
+    }
+
+    .calendar-legend {
+        gap: 15px;
+    }
+
+    .legend-item {
+        font-size: 0.8rem;
+    }
+}
+
+/* ========================================
+    RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .logo-overlay-image {
+        width: 90vw;
+        height: 75vh;
+        max-width: 90vw;
+        max-height: 75vh;
+    }
+
+    .ad-card {
+        padding: 1.5rem;
+        max-width: 92vw;
+    }
+}
+
+@media (max-width: 720px) {
+
+    .logo-overlay-image {
+        width: 92vw;
+        height: 70vh;
+        max-width: 92vw;
+        max-height: 70vh;
+    }
+
+    .ad-card {
+        padding: 1rem;
+        max-width: 94vw;
+        border-radius: 16px;
+    }
+
+    .close-ad {
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+        top: -10px;
+        right: -10px;
+    }
+}

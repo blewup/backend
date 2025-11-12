@@ -1,0 +1,3001 @@
+/* Location page container */
+.container-location {
+    display: flex;
+    justify-content: center;
+    padding: 104vh clamp(1.8rem, 4vw, 3.6rem) clamp(16vh, 22vh, 24vh);
+}
+
+.location-shell {
+    width: min(92vw, 1180px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 7vh, 4.5rem);
+}
+
+.location-page-header {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: clamp(2rem, 5vw, 3.2rem);
+}
+
+.location-page-title {
+    margin: 0;
+    font-family: 'Black Ops One Regular', 'Black Ops One', system-ui;
+    font-size: clamp(3.2rem, 7vw, 3.9rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-color, #f8fafc);
+}
+
+.location-page-title span {
+    display: block;
+}
+
+.location-wrapper {
+    width: 96vw;
+    /* Location page layout */
+    .container-location {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: clamp(4rem, 8vw, 5.5rem) 0 clamp(6rem, 10vw, 8rem);
+    }
+
+    .location-shell {
+        width: min(92vw, 1180px);
+        display: flex;
+        flex-direction: column;
+        gap: clamp(3rem, 7vh, 4.5rem);
+    }
+
+    /* Hero */
+    .location-hero {
+        display: grid;
+        gap: clamp(1.8rem, 3.5vw, 2.75rem);
+        padding: clamp(2.5rem, 5vw, 3.3rem);
+        background: linear-gradient(135deg, rgba(241, 94, 104, 0.08), rgba(61, 90, 241, 0.08));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 18%, transparent);
+        border-radius: 26px;
+        box-shadow: 0 26px 56px rgba(15, 23, 42, 0.22);
+    }
+
+    .hero-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        max-width: 680px;
+    }
+
+    .hero-title {
+        margin: 0;
+        font-family: 'Black Ops One', system-ui;
+        font-size: clamp(2.2rem, 4.6vw, 3.1rem);
+        letter-spacing: 0.045em;
+        color: var(--accent-color);
+    }
+
+    .hero-lead {
+        margin: 0;
+        font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+        line-height: 1.65;
+        color: color-mix(in srgb, var(--text-color) 88%, var(--page-bg) 12%);
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .hero-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.85rem 1.8rem;
+        border-radius: 999px;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 700;
+        font-size: 0.98rem;
+        letter-spacing: 0.03em;
+        border: 1px solid transparent;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border 0.2s ease;
+    }
+
+    .hero-action i {
+        font-size: 1rem;
+    }
+
+    .hero-action.primary {
+        background: var(--accent-color);
+        color: #fff;
+        box-shadow: 0 16px 34px rgba(241, 94, 104, 0.3);
+    }
+
+    .hero-action.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 40px rgba(241, 94, 104, 0.36);
+    }
+
+    .hero-action.secondary {
+        background: transparent;
+        color: var(--accent-color);
+        border-color: color-mix(in srgb, var(--accent-color) 45%, transparent);
+    }
+
+    .hero-action.secondary:hover {
+        background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+        border-color: var(--accent-color);
+        transform: translateY(-1px);
+    }
+
+    .hero-metrics {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+    }
+
+    .metric-card {
+        background: var(--content-bg);
+        border-radius: 18px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        padding: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        align-items: center;
+        text-align: center;
+    }
+
+    .metric-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--accent-color);
+    }
+
+    .metric-value {
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+
+    /* Highlights */
+    .location-highlights {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: clamp(1.25rem, 3vw, 1.75rem);
+    }
+
+    .highlight-card {
+        background: var(--content-bg);
+        border-radius: 22px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 20px 44px rgba(15, 23, 42, 0.1);
+        padding: clamp(1.6rem, 3.2vw, 2.2rem);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .highlight-card i {
+        font-size: 2.1rem;
+        color: var(--accent-color);
+    }
+
+    .highlight-card h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: var(--text-color);
+    }
+
+    .highlight-card p {
+        margin: 0;
+        color: color-mix(in srgb, var(--text-color) 85%, var(--page-bg) 15%);
+        line-height: 1.55;
+    }
+
+    .highlight-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 26px 52px rgba(15, 23, 42, 0.16);
+    }
+
+    /* Rink */
+    .location-rink {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(1.5rem, 3vw, 2.2rem);
+    }
+
+    #main-location .section-header {
+        text-align: center;
+        margin: 0 auto;
+        max-width: 640px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #main-location .section-header h2 {
+        margin: 0;
+        font-family: 'Black Ops One', system-ui;
+        font-size: clamp(1.8rem, 3.6vw, 2.35rem);
+        color: var(--text-color);
+    }
+
+    #main-location .section-header p {
+        margin: 0;
+        font-size: 1rem;
+        color: color-mix(in srgb, var(--text-color) 78%, var(--page-bg) 22%);
+        line-height: 1.6;
+    }
+
+    .rink-controls {
+        align-self: center;
+        display: inline-flex;
+        gap: 0.6rem;
+        padding: 0.5rem;
+        border-radius: 999px;
+        border: 1px solid color-mix(in srgb, var(--accent-color) 25%, transparent);
+        background: color-mix(in srgb, var(--content-bg) 86%, transparent);
+        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-color) 10%, transparent);
+    }
+
+    .ice-toggle {
+        border: none;
+        border-radius: 999px;
+        padding: 0.55rem 1.1rem;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        background: transparent;
+        color: color-mix(in srgb, var(--text-color) 85%, var(--page-bg) 15%);
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ice-toggle.active,
+    .ice-toggle[aria-selected="true"] {
+        background: var(--accent-color);
+        color: #fff;
+        box-shadow: 0 12px 30px rgba(241, 94, 104, 0.3);
+    }
+
+    .ice-toggle:focus-visible {
+        outline: 3px solid rgba(241, 94, 104, 0.35);
+        outline-offset: 2px;
+    }
+
+    .ice-rink {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 200 / 85;
+        border-radius: 28px;
+        border: 2px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+        background: #e0f2fe;
+        overflow: hidden;
+        box-shadow: 0 28px 60px rgba(15, 23, 42, 0.22);
+    }
+
+    .ice-rink .rink-ice {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .ice-logo {
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: clamp(120px, 18vw, 180px);
+        height: clamp(120px, 18vw, 180px);
+        background: url('../images/logos/arena-light.png') center/contain no-repeat;
+        transform: translate(-50%, -50%);
+        opacity: 0.18;
+        filter: saturate(1.1);
+        pointer-events: none;
+    }
+
+    [data-theme="dark"] .ice-logo {
+        background-image: url('../images/logos/arena-dark.png');
+    }
+
+    .half-overlay {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.35);
+        backdrop-filter: blur(1px);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+    }
+
+    .half-overlay[data-ice-side="left"] {
+        left: 0;
+    }
+
+    .half-overlay[data-ice-side="right"] {
+        right: 0;
+    }
+
+    .half-overlay.is-visible {
+        opacity: 0.45;
+    }
+
+    /* Pricing */
+    .location-pricing {
+        display: grid;
+        grid-template-columns: minmax(280px, 1.1fr) minmax(240px, 1fr);
+        gap: clamp(1.75rem, 4vw, 2.5rem);
+        align-items: start;
+    }
+
+    .pricing-card {
+        background: var(--content-bg);
+        border-radius: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 22px 44px rgba(15, 23, 42, 0.16);
+        padding: clamp(2rem, 4vw, 3rem);
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+    }
+
+    .pricing-card h2 {
+        margin: 0;
+        font-family: 'Black Ops One', system-ui;
+        font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+        color: var(--text-color);
+    }
+
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.15rem;
+    }
+
+    .pricing-item {
+        background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent-color) 35%, transparent);
+        border-radius: 18px;
+        padding: 1.35rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .pricing-item h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        color: var(--accent-color);
+    }
+
+    .pricing-item p {
+        margin: 0;
+        color: color-mix(in srgb, var(--text-color) 88%, var(--page-bg) 12%);
+        line-height: 1.5;
+    }
+
+    .pricing-notes {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+        font-size: 0.95rem;
+        color: color-mix(in srgb, var(--text-color) 75%, var(--page-bg) 25%);
+    }
+
+    .facility-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .facility-card {
+        background: var(--content-bg);
+        border-radius: 18px;
+        border: 1px solid var(--border-color);
+        padding: 1.6rem;
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .facility-card h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--text-color);
+    }
+
+    .facility-card p {
+        margin: 0;
+        color: color-mix(in srgb, var(--text-color) 82%, var(--page-bg) 18%);
+    }
+
+    /* CTA */
+    .location-cta {
+        display: flex;
+        justify-content: center;
+    }
+
+    .cta-card {
+        width: min(92vw, 860px);
+        background: linear-gradient(135deg, rgba(61, 90, 241, 0.1), rgba(241, 94, 104, 0.1));
+        border: 1px solid color-mix(in srgb, var(--accent-color) 22%, transparent);
+        border-radius: 24px;
+        box-shadow: 0 28px 56px rgba(15, 23, 42, 0.18);
+        padding: clamp(2.2rem, 4.5vw, 3.2rem);
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        align-items: center;
+        text-align: center;
+    }
+
+    .cta-card h2 {
+        margin: 0;
+        font-family: 'Black Ops One', system-ui;
+        font-size: clamp(1.8rem, 3.6vw, 2.3rem);
+        color: var(--text-color);
+    }
+
+    .cta-card p {
+        margin: 0;
+        font-size: 1.05rem;
+        color: color-mix(in srgb, var(--text-color) 80%, var(--page-bg) 20%);
+        line-height: 1.6;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 1080px) {
+        .location-pricing {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .location-hero {
+            padding: clamp(2rem, 6vw, 2.6rem);
+        }
+
+        .hero-copy {
+            text-align: center;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 7vw, 2.6rem);
+        }
+
+        .hero-actions {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 720px) {
+        .container-location {
+            padding: clamp(3rem, 10vw, 4rem) 0 clamp(4rem, 12vw, 6rem);
+        }
+
+        .location-shell {
+            gap: clamp(2.25rem, 8vh, 3.2rem);
+        }
+
+        .hero-metrics {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        .location-highlights,
+        .facility-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .rink-controls {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ice-rink {
+            border-radius: 22px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .hero-action {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .pricing-item,
+        .facility-card {
+            align-items: center;
+            text-align: center;
+        }
+    }
+    font-size: 2rem;
+    color: var(--accent-color);
+}
+
+.highlight-card h3 {
+    font-size: 1.25rem;
+    color: var(--text-color);
+}
+
+.highlight-card p {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
+.section-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 2rem auto;
+}
+
+.section-header p {
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-top: 0.75rem;
+    line-height: 1.6;
+}
+
+.pricing-and-info {
+    display: grid;
+    grid-template-columns: minmax(280px, 1.1fr) minmax(280px, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.pricing-card {
+    background: var(--content-bg);
+    border-radius: 20px;
+    padding: clamp(2rem, 4vw, 3rem);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.pricing-item {
+    background: rgba(241, 94, 104, 0.08);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid rgba(241, 94, 104, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pricing-item h3 {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+.pricing-item p {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.pricing-notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
+.facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.facility-card {
+    background: var(--content-bg);
+    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    padding: 1.75rem;
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.facility-card h3 {
+    font-size: 1.15rem;
+    color: var(--accent-color);
+}
+
+.facility-card p {
+    font-size: 0.98rem;
+    color: var(--text-color);
+    opacity: 0.85;
+}
+
+.cta-banner {
+    background: linear-gradient(135deg, rgba(61, 90, 241, 0.12), rgba(241, 94, 104, 0.12));
+    border-radius: 22px;
+    padding: clamp(2.5rem, 5vw, 3.5rem);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.14);
+}
+
+.cta-content {
+    max-width: 720px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.cta-content p {
+    font-size: 1.05rem;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.booking-trigger-btn {
+    padding: 1.05rem 2.5rem;
+    background: linear-gradient(135deg, var(--accent-color), #d94854);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Black Ops One', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.3s ease;
+    min-width: 230px;
+    box-shadow: 0 12px 30px rgba(241, 94, 104, 0.35);
+}
+
+.booking-trigger-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(241, 94, 104, 0.45);
+}
+
+@media (max-width: 960px) {
+    .pricing-and-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .location-wrapper {
+        padding-bottom: 3.5rem;
+    }
+
+    .hero-metrics {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .location-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .facility-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.booking-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.booking-modal-overlay.active {
+    opacity: 1;
+}
+
+.booking-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+}
+
+.booking-modal-content {
+    position: relative;
+    background: var(--content-bg);
+    color: var(--text-color);
+    border-radius: 12px;
+    width: 90vw;
+    max-width: 1200px; /* Wide modal */
+    height: 90vh;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-modal-content h2 {
+    font-family: 'Black Ops One', cursive;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+.booking-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-color);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.booking-modal-close:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.booking-modal-body {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 2/3 for calendar/time, 1/3 for summary/form */
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-grow: 1;
+}
+
+.booking-flow-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding-right: 1rem;
+}
+
+.modal-ice-selection {
+    grid-column: 1 / -1; /* Span full width */
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.modal-ice-selection h3 {
+    font-family: 'Black Ops One Regular', sans-serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.ice-type-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.ice-type-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.ice-type-btn.active {
+    border-color: var(--accent-color);
+    background: rgba(241, 94, 104, 0.1);
+    box-shadow: 0 2px 8px rgba(241, 94, 104, 0.2);
+}
+
+.ice-type-btn i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: var(--accent-color);
+}
+
+.ice-type-btn span {
+    font-weight: bold;
+    display: block;
+    font-size: 1.1rem;
+}
+
+.ice-type-btn small {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.modal-calendar-section {
+    grid-column: span 1;
+}
+
+.modal-time-periods-section {
+    grid-column: span 1;
+    max-height: 400px;
+}
+
+.booking-summary-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-right: 1rem;
+    border-left: 2px solid var(--border-color);
+    padding-left: 2rem;
+}
+
+.modal-calendar-section h3,
+.modal-time-periods-section h3,
+.modal-form-section h3,
+.booking-summary h3 {
+    font-family: 'Black Ops One Regular', sans-serif;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.modal-calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.modal-nav-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.modal-nav-btn:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.modal-month-year {
+    font-family: 'Black Ops One Regular', sans-serif;
+    font-size: 1.1rem;
+    text-transform: capitalize;
+}
+
+.modal-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-calendar-day-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+}
+
+.modal-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.modal-calendar-day.empty {
+    border: none;
+    cursor: default;
+    background: transparent;
+}
+
+.modal-calendar-day.unavailable {
+    background: rgba(150, 150, 150, 0.1);
+    color: var(--text-color);
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.modal-calendar-day.available {
+    background: rgba(94, 207, 113, 0.1);
+    color: var(--success-color);
+}
+
+.modal-calendar-day.available:hover {
+    background: rgba(94, 207, 113, 0.3);
+    transform: scale(1.05);
+}
+
+.modal-calendar-day.selected {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.calendar-legend-compact {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    justify-content: center;
+}
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+.legend-dot.available { background: rgba(94, 207, 113, 0.3); }
+.legend-dot.unavailable { background: rgba(150, 150, 150, 0.2); }
+.legend-dot.selected { background: var(--accent-color); }
+
+.time-periods-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.no-selection-message,
+.no-periods-message {
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.6;
+    padding: 2rem;
+    font-style: italic;
+}
+
+.date-time-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
+}
+[data-theme="dark"] .date-time-section {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.date-time-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.date-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.remove-date-btn {
+    background: transparent;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.remove-date-btn:hover {
+    background: var(--error-color);
+    color: white;
+}
+
+.time-periods-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column */
+    gap: 0.75rem;
+}
+
+.time-period-card {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.time-period-card:hover {
+    border-color: var(--accent-color);
+    background: rgba(241, 94, 104, 0.05);
+}
+
+.time-period-card.selected {
+    border-color: var(--accent-color);
+    background: rgba(241, 94, 104, 0.1);
+}
+
+.period-header {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.promo-badge {
+    background: var(--success-color);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.period-time, .period-duration {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-left: 1.5rem;
+}
+.period-pricing {
+    margin-top: 0.5rem;
+    text-align: right;
+}
+.price-original {
+    text-decoration: line-through;
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+.price-final {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+.period-select-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+}
+.time-period-card.selected .period-select-indicator {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+.booking-summary {
+    margin-bottom: 1.5rem;
+}
+.summary-empty {
+    text-align: center;
+    padding: 2rem;
+    opacity: 0.6;
+}
+.summary-empty i {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.summary-item {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.75rem;
+}
+.summary-date {
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.summary-periods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.summary-period-tag {
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+.summary-pricing {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+}
+.pricing-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    padding: 0.25rem 0;
+}
+.pricing-row.total-row {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+
+.modal-booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    background: var(--content-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.btn-cancel,
+.btn-submit {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Raleway Regular', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-cancel {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-cancel:hover {
+    background: var(--border-color);
+}
+
+.btn-submit {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-submit:hover {
+    background: #d14e58;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(241, 94, 104, 0.3);
+}
+
+.modal-error-message,
+.modal-success-message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-error-message {
+    background: rgba(241, 94, 104, 0.1);
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+}
+
+.modal-success-message {
+    background: rgba(94, 207, 113, 0.1);
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+}
+
+@media (max-width: 1024px) {
+    .booking-modal-body {
+        grid-template-columns: 1fr;
+    }
+    .booking-summary-form-container {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .booking-modal-content {
+        max-width: 95vw;
+        padding: 1rem;
+    }
+
+    .booking-flow-container {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-time-periods-section {
+        max-height: 250px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-cancel,
+    .btn-submit {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .on-rink-btn {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+    }
+}
+
+/* ===================================================================
+   YEAR CALENDAR GRID (12 MONTHS)
+   =================================================================== */
+
+.year-calendar-grid-full {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+    padding: 0;
+}
+
+.month-calendar-full {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.month-calendar-full:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.month-header-full {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.weekdays-mini-full {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.7;
+    text-align: center;
+}
+
+.days-grid-mini-full {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+.day-mini-full {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.day-mini-full.blank {
+    background: transparent;
+    cursor: default;
+}
+
+.day-mini-full.available {
+    background: var(--success-color);
+    color: white;
+}
+
+.day-mini-full.available:hover {
+    background: var(--success-hover);
+    transform: scale(1.1);
+}
+
+.day-mini-full.selected {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 2px 8px rgba(241, 94, 104, 0.3);
+}
+
+.day-mini-full.unavailable {
+    background: var(--content-bg);
+    color: var(--text-color);
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.day-mini-full.today {
+    border: 2px solid var(--accent-color);
+    font-weight: 700;
+}
+
+/* ===================================================================
+   TIME SELECTION PANEL
+   =================================================================== */
+
+.time-selection-panel {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    display: none;
+}
+
+.time-selection-panel h3 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.time-schedule-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.time-schedule-inputs select {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--content-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.selected-dates-list {
+    margin-bottom: 1.5rem;
+}
+
+.selected-dates-list h4 {
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.selected-date-item {
+    background: var(--content-bg);
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
+    font-size: 0.9rem;
+}
+
+.reservation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.reservation-actions button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--content-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+/* ===================================================================
+   RESPONSIVE CALENDAR DEMO SECTION
+   =================================================================== */
+
+.responsive-calendar-section {
+    padding: 4rem 2rem;
+    margin: 4rem 0;
+    background: linear-gradient(135deg, rgba(241, 94, 104, 0.05), rgba(61, 90, 241, 0.05));
+    border-radius: 16px;
+}
+
+.responsive-calendar-section h2 {
+    text-align: center;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.responsive-calendar-section p {
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.responsive-calendar-container {
+    margin-bottom: 3rem;
+}
+
+.calendar-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.feature-item i {
+    color: var(--accent-color);
+    font-size: 1.2rem;
+}
+
+.feature-item span {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .calendar-features {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .feature-item {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* ===================================================================
+   RESPONSIVE MONTHLY CALENDAR COMPONENT
+   =================================================================== */
+
+.responsive-month-calendar {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.responsive-month-calendar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.responsive-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.responsive-calendar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.responsive-calendar-nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.responsive-calendar-nav button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.responsive-calendar-nav button:hover {
+    background: var(--accent-hover);
+    transform: scale(1.05);
+}
+
+.responsive-calendar-nav button:active {
+    transform: scale(0.95);
+}
+
+.responsive-calendar-grid {
+    display: grid;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.responsive-calendar-weekdays {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.responsive-calendar-weekday {
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+}
+
+.responsive-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    min-height: 40px;
+}
+
+.responsive-calendar-day:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: scale(1.05);
+}
+
+.responsive-calendar-day.selected {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 2px 8px rgba(241, 94, 104, 0.3);
+}
+
+.responsive-calendar-day.today {
+    background: var(--secondary-color);
+    color: white;
+    font-weight: 600;
+}
+
+.responsive-calendar-day.other-month {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.responsive-calendar-day.other-month:hover {
+    background: transparent;
+    transform: none;
+    color: var(--text-color);
+}
+
+.responsive-calendar-day.has-events::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 50%;
+}
+
+.responsive-calendar-day.selected.has-events::after {
+    background: white;
+}
+
+/* Responsive grid layouts */
+.responsive-calendar-grid.grid-4x3 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.responsive-calendar-grid.grid-3x4 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.responsive-calendar-grid.grid-5x3 {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.responsive-calendar-grid.grid-3x5 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.responsive-calendar-grid.grid-6x2 {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.responsive-calendar-grid.grid-2x6 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+
+/* Weekday grid matches calendar grid */
+.responsive-calendar-weekdays.grid-4x3 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.responsive-calendar-weekdays.grid-3x4 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.responsive-calendar-weekdays.grid-5x3 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.responsive-calendar-weekdays.grid-3x5 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.responsive-calendar-weekdays.grid-6x2 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.responsive-calendar-weekdays.grid-2x6 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .responsive-month-calendar {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .responsive-calendar-title {
+        font-size: 1.3rem;
+    }
+    
+    .responsive-calendar-day {
+        font-size: 0.8rem;
+        min-height: 35px;
+    }
+    
+    .responsive-calendar-weekday {
+        font-size: 0.8rem;
+        padding: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-month-calendar {
+        padding: 0.75rem;
+    }
+    
+    .responsive-calendar-title {
+        font-size: 1.1rem;
+    }
+    
+    .responsive-calendar-nav button {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+    
+    .responsive-calendar-day {
+        font-size: 0.75rem;
+        min-height: 30px;
+    }
+    
+    .responsive-calendar-weekday {
+        font-size: 0.75rem;
+    }
+}
+
+.responsive-calendar-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.responsive-calendar-header h2 {
+    color: var(--accent-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.layout-info {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.current-layout {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.responsive-calendar-grid {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.responsive-month-calendar {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.responsive-month-calendar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.responsive-month-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.responsive-month-header h3 {
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+    text-transform: capitalize;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.responsive-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.responsive-weekdays div {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    padding: 0.25rem;
+}
+
+.responsive-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+.responsive-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 1px solid transparent;
+    background: var(--content-bg);
+    color: var(--text-color);
+}
+
+.responsive-day.blank {
+    background: transparent;
+    cursor: default;
+    pointer-events: none;
+}
+
+.responsive-day.today {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(241, 94, 104, 0.2);
+}
+
+.responsive-day.event-ongoing {
+    background: linear-gradient(135deg, #ffd700, #ffb300);
+    color: #333;
+    font-weight: bold;
+}
+
+.responsive-day.event-upcoming {
+    background: linear-gradient(135deg, #5ecf71, #47a35a);
+    color: white;
+}
+
+.responsive-day.event-completed {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+}
+
+.responsive-day.selected {
+    background: var(--calendar-hover-bg, #3498db);
+    color: white;
+    border-color: var(--calendar-hover-bg, #3498db);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    z-index: 10;
+}
+
+.responsive-day:hover:not(.blank):not(.selected) {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-color: var(--border-color);
+}
+
+.day-number {
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.event-indicator {
+    font-size: 0.6rem;
+    margin-top: 2px;
+    opacity: 0.8;
+}
+
+/* Responsive breakpoints for calendar layout */
+@media (max-width: 1200px) {
+    .responsive-calendar-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .responsive-calendar-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .responsive-calendar-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+
+    .responsive-month-calendar {
+        padding: 0.75rem;
+    }
+
+    .responsive-month-header h3 {
+        font-size: 1rem;
+    }
+
+    .responsive-day {
+        font-size: 0.8rem;
+    }
+
+    .day-number {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===================================================================
+   10-MONTH CALENDAR BOOKING SECTION - Sept to June
+   =================================================================== */
+
+.calendar-booking-section {
+    padding: 4rem 2rem;
+    margin-top: 0;
+    background: linear-gradient(135deg, rgba(241, 94, 104, 0.03), rgba(61, 90, 241, 0.03));
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .calendar-booking-section {
+    background: linear-gradient(135deg, rgba(241, 94, 104, 0.08), rgba(61, 90, 241, 0.08));
+}
+
+.calendar-booking-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.calendar-instructions {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* 12-Month Calendar Grid - 4 rows x 3 columns */
+.year-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.month-calendar {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.month-calendar:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.month-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    text-transform: capitalize;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.weekdays-mini {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.weekdays-mini div {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.days-grid-mini {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+}
+
+/* Day Box Styling */
+.day-mini {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.day-mini.blank {
+    background: transparent;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* PAST DAYS - Red background */
+.day-mini.passed {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.5;
+    border: 2px solid #990000;
+}
+
+/* UNAVAILABLE/OVERLOADED DAYS - Red background */
+.day-mini.unavailable {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.7;
+    border: 2px solid #990000;
+}
+
+/* AVAILABLE DAYS - Green background (brighter green on hover) */
+.day-mini.available {
+    background: linear-gradient(135deg, #5ecf71, #47a35a);
+    color: white;
+    border: 2px solid #3d8c4a;
+    cursor: pointer;
+}
+
+.day-mini.available:hover {
+    background: linear-gradient(135deg, #7fff91, #5ecf71);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(94, 207, 113, 0.4);
+    z-index: 10;
+}
+
+.day-mini.available:hover::before {
+    content: attr(data-date);
+    font-size: 1.26rem; /* 0.9rem * 1.4 = 1.26rem */
+    transform: scale(1.4);
+}
+
+/* SELECTED DAYS - Uses calendar-hover-bg variable (blue) */
+.day-mini.selected {
+    background: var(--calendar-hover-bg);
+    color: white;
+    border: 3px solid var(--calendar-hover-bg);
+    transform: scale(1.08);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+    opacity: 1 !important;
+}
+
+.day-mini.selected:hover {
+    background: linear-gradient(135deg, #5dade2, var(--calendar-hover-bg));
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.5);
+    border-color: #5dade2;
+}
+
+.day-mini.selected:hover::before {
+    font-size: 1.26rem; /* 0.9rem * 1.4 = 1.26rem */
+    transform: scale(1.4);
+}
+
+/* UNSELECTED (when a selection is active but this day isn't selected) - Yellow background */
+.day-mini.unselected {
+    background: linear-gradient(135deg, #ffd700, #ffc107);
+    color: #333;
+    border: 2px solid #ffb300;
+    cursor: pointer;
+}
+
+.day-mini.unselected:hover {
+    background: linear-gradient(135deg, #ffed4e, #ffd700);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+}
+
+.day-mini.unselected:hover::before {
+    font-size: 1.26rem; /* 0.9rem * 1.4 = 1.26rem */
+    transform: scale(1.4);
+}
+
+/* Date Number Font Scaling on Hover */
+.day-mini:not(.blank):not(.passed):not(.unavailable):hover {
+    font-size: 1.26rem; /* 0.9rem base * 1.4 = 1.26rem */
+}
+
+/* Booking Panel */
+.booking-panel {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.booking-panel h3 {
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* Time Schedule Inputs */
+.time-schedule-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.time-input-group {
+    background: rgba(0, 0, 0, 0.02);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] .time-input-group {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.time-input-label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.time-inputs-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.time-input {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color 0.3s ease;
+}
+
+.time-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(241, 94, 104, 0.1);
+}
+
+.time-validation-error {
+    color: var(--error-color);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    min-height: 1.2rem;
+}
+
+/* New Booking Form */
+.new-booking-form {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.new-booking-form h3 {
+    margin-bottom: 1.5rem;
+}
+
+.new-booking-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.new-booking-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-booking-form label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.new-booking-form input {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: border-color 0.3s ease;
+}
+
+.new-booking-form input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(241, 94, 104, 0.1);
+}
+
+.form-error {
+    background: rgba(241, 94, 104, 0.1);
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-success {
+    background: rgba(94, 207, 113, 0.1);
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-color), #d94854);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(241, 94, 104, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: var(--accent-color);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .year-calendar-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .year-calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .calendar-booking-section {
+        padding: 2rem 1rem;
+    }
+    
+    .year-calendar-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .time-inputs-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .new-booking-form .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ===================================================================
+   CALENDAR OVERLAY SYSTEM
+   =================================================================== */
+
+.calendar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.calendar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.calendar-overlay-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.calendar-overlay-content {
+    position: relative;
+    background: var(--content-bg);
+    border-radius: 20px;
+    width: 95vw;
+    height: 95vh;
+    max-width: 1400px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--border-color);
+}
+
+.calendar-overlay-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--error-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 5010;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-overlay-close:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-overlay-body {
+    flex: 1;
+    padding: 60px 20px 20px 20px;
+    background: var(--content-bg);
+}
+
+/* Responsive adjustments for calendar overlay */
+@media (max-width: 768px) {
+    .calendar-overlay-content {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        max-width: none;
+    }
+    
+    .calendar-overlay-body {
+        padding: 70px 15px 15px 15px;
+    }
+    
+    .calendar-overlay-close {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* Enhanced booking button styling */
+.booking-trigger-btn {
+    padding: 1.2rem 2.5rem;
+    background: linear-gradient(135deg, var(--accent-color), #d94854);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Black Ops One', cursive;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(241, 94, 104, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.booking-trigger-btn:hover {
+    background: linear-gradient(135deg, #d94854, #c13e4a);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(241, 94, 104, 0.4);
+}
+
+.booking-trigger-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(241, 94, 104, 0.3);
+}
+
+.booking-trigger-btn i {
+    font-size: 1.4rem;
+}
+
+/* Section headers improvements */
+.bottom-booking-section h2 {
+    color: var(--accent-color);
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.bottom-booking-section p {
+    color: var(--text-color);
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto 2rem auto;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Modern location layout overrides (2025-11-06)                             */
+/* -------------------------------------------------------------------------- */
+
+#main-location.container-location {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(4.8rem, 8vw, 6.8rem);
+}
+
+#main-location.container-location .location-shell {
+    width: min(96vw, 1180px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.8rem, 6vw, 4.2rem);
+}
+
+#main-location .location-hero {
+    display: grid;
+    gap: clamp(1.8rem, 3.5vw, 2.6rem);
+    padding: clamp(2.2rem, 4.8vw, 3.1rem);
+    border-radius: clamp(1.4rem, 2vw, 1.9rem);
+    background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    background-color: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 28px 65px -40px rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(22px);
+}
+
+#main-location .hero-copy {
+    display: grid;
+    gap: clamp(1rem, 2.2vw, 1.4rem);
+    max-width: clamp(480px, 65vw, 680px);
+}
+
+#main-location .hero-title {
+    margin: 0;
+    font-family: 'Black Ops One Regular', cursive;
+    font-size: clamp(2.1rem, 4.6vw, 3.1rem);
+    letter-spacing: 0.05em;
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .hero-lead {
+    margin: 0;
+    font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--text-secondary, rgba(226, 232, 240, 0.85));
+}
+
+#main-location .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+#main-location .hero-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.9rem;
+    border-radius: 999px;
+    font-family: 'Raleway SemiBold', sans-serif;
+    font-size: 0.98rem;
+    letter-spacing: 0.04em;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+#main-location .hero-action.primary {
+    background: var(--accent-color, #f15e68);
+    color: #fff;
+    box-shadow: 0 18px 44px -24px rgba(241, 94, 104, 0.6);
+}
+
+#main-location .hero-action.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 24px 50px -20px rgba(241, 94, 104, 0.75);
+}
+
+#main-location .hero-action.secondary {
+    background: rgba(15, 23, 42, 0.35);
+    color: var(--accent-color, #f15e68);
+    border-color: rgba(241, 94, 104, 0.45);
+}
+
+#main-location .hero-action.secondary:hover {
+    background: rgba(241, 94, 104, 0.16);
+    transform: translateY(-1px);
+}
+
+#main-location .hero-metrics {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: clamp(1rem, 2.2vw, 1.5rem);
+}
+
+#main-location .metric-card {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: center;
+    padding: clamp(1.1rem, 2.2vw, 1.6rem);
+    border-radius: clamp(1rem, 1.6vw, 1.3rem);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 22px 50px -38px rgba(15, 23, 42, 0.8);
+}
+
+#main-location .metric-label {
+    font-family: 'Raleway SemiBold', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-color, #f15e68);
+}
+
+#main-location .metric-value {
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+    font-weight: 700;
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .location-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(1.2rem, 2.5vw, 1.8rem);
+}
+
+#main-location .highlight-card {
+    display: grid;
+    gap: 0.75rem;
+    padding: clamp(1.4rem, 2.6vw, 2rem);
+    border-radius: clamp(1.1rem, 1.8vw, 1.4rem);
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary, rgba(226, 232, 240, 0.85));
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+#main-location .highlight-card i {
+    font-size: clamp(1.8rem, 3vw, 2.1rem);
+    color: var(--accent-color, #f15e68);
+}
+
+#main-location .highlight-card h3 {
+    margin: 0;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .highlight-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(241, 94, 104, 0.4);
+    box-shadow: 0 26px 65px -38px rgba(241, 94, 104, 0.4);
+}
+
+#main-location .location-rink {
+    display: grid;
+    gap: clamp(1.4rem, 2.8vw, 2.2rem);
+}
+
+#main-location .section-header {
+    display: grid;
+    gap: 0.7rem;
+    text-align: center;
+    margin: 0 auto;
+    max-width: clamp(480px, 70vw, 680px);
+}
+
+#main-location .section-header h2 {
+    margin: 0;
+    font-family: 'Black Ops One Regular', cursive;
+    font-size: clamp(1.8rem, 3.6vw, 2.3rem);
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .section-header p {
+    margin: 0;
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    color: var(--text-secondary, rgba(226, 232, 240, 0.78));
+}
+
+#main-location .rink-controls {
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+#main-location .ice-toggle {
+    border: none;
+    border-radius: 999px;
+    padding: 0.6rem 1.1rem;
+    font-family: 'Raleway SemiBold', sans-serif;
+    font-size: 0.9rem;
+    background: transparent;
+    color: var(--text-secondary, rgba(226, 232, 240, 0.85));
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#main-location .ice-toggle.active,
+#main-location .ice-toggle[aria-selected="true"] {
+    background: var(--accent-color, #f15e68);
+    color: #0f172a;
+    box-shadow: 0 16px 40px -20px rgba(241, 94, 104, 0.55);
+}
+
+#main-location .ice-rink {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 200 / 85;
+    border-radius: clamp(1.5rem, 2.6vw, 2rem);
+    border: 2px solid color-mix(in srgb, var(--accent-color) 38%, transparent);
+    background: #e0f2fe;
+    overflow: hidden;
+    box-shadow: 0 28px 65px -40px rgba(15, 23, 42, 0.85);
+}
+
+#main-location .location-pricing {
+    display: grid;
+    grid-template-columns: minmax(320px, 1.1fr) minmax(240px, 1fr);
+    gap: clamp(1.6rem, 3vw, 2.4rem);
+    align-items: start;
+}
+
+#main-location .pricing-card {
+    display: grid;
+    gap: clamp(1.2rem, 2.2vw, 1.8rem);
+    padding: clamp(1.8rem, 3.6vw, 2.8rem);
+    border-radius: clamp(1.3rem, 2vw, 1.8rem);
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 26px 60px -38px rgba(15, 23, 42, 0.85);
+}
+
+#main-location .pricing-card h2 {
+    margin: 0;
+    font-family: 'Black Ops One Regular', cursive;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(1rem, 2vw, 1.4rem);
+}
+
+#main-location .pricing-item {
+    display: grid;
+    gap: 0.45rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border-radius: clamp(0.9rem, 1.4vw, 1.2rem);
+    background: linear-gradient(140deg, rgba(241, 94, 104, 0.16), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(241, 94, 104, 0.3);
+}
+
+#main-location .pricing-item h3 {
+    margin: 0;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--accent-color, #f15e68);
+}
+
+#main-location .pricing-item p {
+    margin: 0;
+    color: var(--text-secondary, rgba(226, 232, 240, 0.82));
+}
+
+#main-location .pricing-notes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary, rgba(226, 232, 240, 0.75));
+}
+
+#main-location .facility-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(1.1rem, 2.4vw, 1.7rem);
+}
+
+#main-location .facility-card {
+    display: grid;
+    gap: 0.4rem;
+    padding: clamp(1.2rem, 2vw, 1.8rem);
+    border-radius: clamp(1rem, 1.6vw, 1.3rem);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 55px -38px rgba(15, 23, 42, 0.85);
+}
+
+#main-location .facility-card h3 {
+    margin: 0;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .facility-card p {
+    margin: 0;
+    color: var(--text-secondary, rgba(226, 232, 240, 0.82));
+}
+
+#main-location .location-cta {
+    display: flex;
+    justify-content: center;
+}
+
+#main-location .cta-card {
+    width: min(96vw, 860px);
+    display: grid;
+    gap: clamp(1.2rem, 2.4vw, 1.8rem);
+    padding: clamp(1.8rem, 3.4vw, 2.6rem);
+    border-radius: clamp(1.3rem, 1.8vw, 1.6rem);
+    background: linear-gradient(140deg, rgba(59, 130, 246, 0.14), rgba(241, 94, 104, 0.18));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 26px 60px -36px rgba(15, 23, 42, 0.8);
+    text-align: center;
+}
+
+#main-location .cta-card h2 {
+    margin: 0;
+    font-family: 'Black Ops One Regular', cursive;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    color: var(--text-color, #f8fafc);
+}
+
+#main-location .cta-card p {
+    margin: 0;
+    font-size: clamp(1rem, 1.8vw, 1.1rem);
+    color: var(--text-secondary, rgba(226, 232, 240, 0.82));
+}
+
+@media (max-width: 1080px) {
+    #main-location .location-pricing {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    #main-location .hero-copy {
+        justify-items: center;
+        text-align: center;
+    }
+
+    #main-location .hero-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 720px) {
+    #main-location.container-location {
+        padding: clamp(2.8rem, 9vw, 4rem) 0 clamp(4rem, 11vw, 5.5rem);
+    }
+
+    #main-location .hero-metrics {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    #main-location .location-highlights,
+    #main-location .facility-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #main-location .rink-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 520px) {
+    #main-location .hero-action {
+        width: 100%;
+        justify-content: center;
+    }
+
+    #main-location .pricing-item,
+    #main-location .facility-card {
+        text-align: center;
+    }
+}

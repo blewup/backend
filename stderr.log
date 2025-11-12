@@ -1,0 +1,52 @@
+✅ Loaded User model
+✅ Loaded UserLocation model
+✅ Loaded UserSocialProfile model
+✅ Loaded UserPaymentMethod model
+✅ Loaded UserProfile model
+✅ Loaded UserActivity model
+✅ Loaded Alliance model
+✅ Loaded Alliance Member model
+✅ Loaded Events model
+✅ Loaded EventParticipant model
+✅ Loaded UserTransaction model
+✅ Loaded Conversation model
+✅ Loaded ConversationParticipant model
+✅ Loaded ConversationMessage model
+✅ Loaded FriendRequest model
+✅ Loaded SupportTicket model
+✅ Loaded SupportAttachment model
+✅ Loaded SupportResponse model
+Setting up associations...
+❌ Failed to associate User: User.hasMany called with something that's not a subclass of Sequelize.Model
+✅ Associated: UserLocation
+✅ Associated: UserSocialProfile
+✅ Associated: UserPaymentMethod
+✅ Associated: UserProfile
+❌ Failed to associate UserActivity: UserActivity.belongsTo called with something that's not a subclass of Sequelize.Model
+❌ Failed to associate Alliance: Alliance.hasMany called with something that's not a subclass of Sequelize.Model
+✅ Associated: Alliance_Member
+❌ Failed to associate Events: Event.hasMany called with something that's not a subclass of Sequelize.Model
+❌ Failed to associate EventsParticipant: EventsParticipant.belongsTo called with something that's not a subclass of Sequelize.Model
+❌ Failed to associate UserTransaction: UserTransaction.belongsTo called with something that's not a subclass of Sequelize.Model
+✅ Associated: Conversation
+✅ Associated: ConversationParticipant
+✅ Associated: ConversationMessage
+✅ Associated: FriendRequest
+✅ Associated: SupportTicket
+✅ Associated: SupportAttachment
+✅ Associated: SupportResponse
+✅ All models loaded and associated!
+✅ Database connection established successfully.
+✅ Database synchronized successfully
+🚀 Kusher App running on http://0.0.0.0:8080
+📊 API available at http://0.0.0.0:8080/api
+🌐 Environment: production
+🗄️ Database: kushvjkc_prod
+📋 Available API Routes:
+  /api/auth/* - Authentication routes
+  /api/events/* - Event management
+  /api/social/* - Social profiles
+  /api/friends/* - Friend system
+  /api/conversations/* - Messaging
+  /api/support/* - Support tickets
+  /api/status - Health check

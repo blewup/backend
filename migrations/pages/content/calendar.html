@@ -1,0 +1,218 @@
+<main id="main-calendar" class="main container-calendar overlay inactive" data-page="main-calendar" aria-hidden="true">
+    <div class="calendar-overlay" role="presentation">
+        <div class="calendar-overlay__backdrop" data-calendar-dismiss aria-hidden="true"></div>
+        <section class="calendar-overlay__panel" role="dialog" aria-modal="true" aria-labelledby="calendar-overlay-title">
+            <header class="calendar-overlay__header">
+                <h1 id="calendar-overlay-title">
+                    <span class="fr_CA active">Sélectionnez vos plages horaires</span>
+                    <span class="en_US inactive">Select your ice slots</span>
+                </h1>
+                <div class="calendar-overlay__actions">
+                    <button type="button" class="calendar-overlay__close" data-calendar-dismiss aria-label="Fermer">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="calendar-overlay__body">
+                <section class="calendar-sidebar" aria-labelledby="calendar-contact-title">
+                    <h2 id="calendar-contact-title">
+                        <span class="fr_CA active">Informations sur l'organisation</span>
+                        <span class="en_US inactive">Organization details</span>
+                    </h2>
+                    <form class="calendar-form" autocomplete="off">
+                        <label class="calendar-field" for="calendar-requester">
+                            <span class="fr_CA active">Nom du responsable</span>
+                            <span class="en_US inactive">Primary contact</span>
+                        </label>
+                        <input type="text" id="calendar-requester" name="calendar-requester" required />
+
+                        <label class="calendar-field" for="calendar-organization">
+                            <span class="fr_CA active">Organisation / équipe</span>
+                            <span class="en_US inactive">Organization / team</span>
+                        </label>
+                        <input type="text" id="calendar-organization" name="calendar-organization" />
+
+                        <label class="calendar-field" for="calendar-phone">
+                            <span class="fr_CA active">Téléphone</span>
+                            <span class="en_US inactive">Phone</span>
+                        </label>
+                        <input type="tel" id="calendar-phone" name="calendar-phone" inputmode="tel" placeholder="000-000-0000" />
+
+                        <label class="calendar-field" for="calendar-email">
+                            <span class="fr_CA active">Courriel</span>
+                            <span class="en_US inactive">Email</span>
+                        </label>
+                        <input type="email" id="calendar-email" name="calendar-email" placeholder="exemple@domaine.com" />
+
+                        <label class="calendar-field" for="calendar-notes">
+                            <span class="fr_CA active">Note ou contexte</span>
+                            <span class="en_US inactive">Notes or context</span>
+                        </label>
+                        <textarea id="calendar-notes" name="calendar-notes" rows="4"></textarea>
+                    </form>
+
+                    <section class="calendar-selection" aria-live="polite">
+                        <h3>
+                            <span class="fr_CA active">Plages sélectionnées</span>
+                            <span class="en_US inactive">Selected slots</span>
+                        </h3>
+                        <ul id="calendar-selected-list" class="calendar-selected-list"></ul>
+                        <p id="calendar-selection-empty">
+                            <span class="fr_CA active">Aucune plage n'est sélectionnée pour le moment.</span>
+                            <span class="en_US inactive">No time slots selected yet.</span>
+                        </p>
+                    </section>
+
+                    <div class="calendar-sidebar__footer">
+                        <button type="button" class="calendar-submit" data-calendar-submit>
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                            <span class="fr_CA active">Soumettre la demande</span>
+                            <span class="en_US inactive">Submit request</span>
+                        </button>
+                        <button type="button" class="calendar-clear" data-calendar-clear>
+                            <span class="fr_CA active">Réinitialiser</span>
+                            <span class="en_US inactive">Reset</span>
+                        </button>
+                    </div>
+                </section>
+
+                <section class="calendar-main" aria-labelledby="calendar-month-title">
+                    <header class="calendar-main__header">
+                        <h2 id="calendar-month-title">
+                            <span class="fr_CA active">Calendrier des disponibilités</span>
+                            <span class="en_US inactive">Availability calendar</span>
+                        </h2>
+                        <p>
+                            <span class="fr_CA active">Réservation possible de novembre&nbsp;2025 à août&nbsp;2026.</span>
+                            <span class="en_US inactive">Book between November&nbsp;2025 and August&nbsp;2026.</span>
+                        </p>
+                    </header>
+                    <div id="calendar-month-grid" class="calendar-month-grid" aria-live="polite"></div>
+                    <footer class="calendar-legend" aria-label="Légende">
+                        <div class="legend-item" data-legend="open">
+                            <span class="legend-swatch"></span>
+                            <span class="fr_CA active">Disponible</span>
+                            <span class="en_US inactive">Available</span>
+                        </div>
+                        <div class="legend-item" data-legend="tentative">
+                            <span class="legend-swatch"></span>
+                            <span class="fr_CA active">En attente</span>
+                            <span class="en_US inactive">Pending</span>
+                        </div>
+                        <div class="legend-item" data-legend="blocked">
+                            <span class="legend-swatch"></span>
+                            <span class="fr_CA active">Indisponible</span>
+                            <span class="en_US inactive">Unavailable</span>
+                        </div>
+                        <div class="legend-item" data-legend="selected">
+                            <span class="legend-swatch"></span>
+                            <span class="fr_CA active">Sélectionné</span>
+                            <span class="en_US inactive">Selected</span>
+                        </div>
+                    </footer>
+                </section>
+            </div>
+        </section>
+    </div>
+
+    <section id="calendar-slot-modal" class="calendar-slot-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="calendar-slot-modal__backdrop" data-slot-dismiss aria-hidden="true"></div>
+        <div class="calendar-slot-modal__panel" role="document">
+            <header class="calendar-slot-modal__header">
+                <h2 id="calendar-slot-modal-title">
+                    <span class="fr_CA active">Configurer votre plage</span>
+                    <span class="en_US inactive">Configure your slot</span>
+                </h2>
+                <button type="button" class="calendar-slot-modal__close" data-slot-dismiss aria-label="Fermer">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </header>
+            <form class="calendar-slot-form" autocomplete="off">
+                <p class="calendar-slot-form__date" id="calendar-slot-date"></p>
+
+                <label class="calendar-field" for="calendar-slot-type">
+                    <span class="fr_CA active">Type de demande</span>
+                    <span class="en_US inactive">Request type</span>
+                </label>
+                <select id="calendar-slot-type" name="calendar-slot-type">
+                    <option value="add" selected></option>
+                    <option value="hold"></option>
+                    <option value="cancel"></option>
+                </select>
+
+                <div class="calendar-slot-time">
+                    <div>
+                        <label class="calendar-field" for="calendar-slot-start">
+                            <span class="fr_CA active">Début</span>
+                            <span class="en_US inactive">Start</span>
+                        </label>
+                        <select id="calendar-slot-start" name="calendar-slot-start"></select>
+                    </div>
+                    <div>
+                        <label class="calendar-field" for="calendar-slot-end">
+                            <span class="fr_CA active">Fin</span>
+                            <span class="en_US inactive">End</span>
+                        </label>
+                        <select id="calendar-slot-end" name="calendar-slot-end"></select>
+                    </div>
+                </div>
+
+                <label class="calendar-field" for="calendar-slot-notes">
+                    <span class="fr_CA active">Commentaire optionnel</span>
+                    <span class="en_US inactive">Optional note</span>
+                </label>
+                <textarea id="calendar-slot-notes" name="calendar-slot-notes" rows="3"></textarea>
+
+                <p id="calendar-slot-error" class="calendar-slot-error" role="alert" hidden></p>
+
+                <div class="calendar-slot-modal__actions">
+                    <button type="button" class="calendar-slot-modal__secondary" data-slot-dismiss>
+                        <span class="fr_CA active">Annuler</span>
+                        <span class="en_US inactive">Cancel</span>
+                    </button>
+                    <button type="submit" class="calendar-slot-modal__primary">
+                        <span class="fr_CA active">Enregistrer</span>
+                        <span class="en_US inactive">Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="calendar-share-modal" class="calendar-share-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="calendar-share-modal__backdrop" data-share-dismiss aria-hidden="true"></div>
+        <div class="calendar-share-modal__panel" role="document">
+            <header class="calendar-share-modal__header">
+                <h2 id="calendar-share-title">
+                    <span class="fr_CA active">Votre demande est prête</span>
+                    <span class="en_US inactive">Your request is ready</span>
+                </h2>
+                <button type="button" class="calendar-share-modal__close" data-share-dismiss aria-label="Fermer">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </header>
+            <div class="calendar-share-modal__body">
+                <p>
+                    <span class="fr_CA active">Copiez le résumé ci-dessous et envoyez-le à</span>
+                    <span class="en_US inactive">Copy the summary below and send to</span>
+                    <a href="mailto:info@arenalareau.com">info@arenalareau.com</a>.
+                </p>
+                <textarea id="calendar-share-output" readonly rows="8"></textarea>
+            </div>
+            <footer class="calendar-share-modal__footer">
+                <button type="button" class="calendar-share-modal__copy" data-share-copy>
+                    <i class="fas fa-clipboard" aria-hidden="true"></i>
+                    <span class="fr_CA active">Copier</span>
+                    <span class="en_US inactive">Copy</span>
+                </button>
+                <button type="button" class="calendar-share-modal__done" data-share-dismiss>
+                    <span class="fr_CA active">Fermer</span>
+                    <span class="en_US inactive">Close</span>
+                </button>
+            </footer>
+        </div>
+    </section>
+
+    <output id="calendar-toast" class="calendar-toast" role="status" aria-live="assertive" aria-atomic="true"></output>
+</main>

@@ -1,0 +1,63 @@
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Black Ops One Regular';
+    src: url('/assets/fonts/Black_Ops_One/BlackOpsOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Raleway Regular';
+    src: url('/assets/fonts/Raleway/static/Raleway-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Raleway Bold';
+    src: url('/assets/fonts/Raleway/static/Raleway-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Italic';
+    src: url('/assets/fonts/Comic_Neue/ComicNeue-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Light Italic';
+    src: url('../fonts/Comic_Neu/ComicNeue-Lightitalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+.header-font {
+    font-family: 'Black Ops One Regular', cursive;
+}
+
+.body-font {
+    font-family: 'Raleway Regular', sans-serif;
+}
+
+.special-font {
+    font-family: 'Comic Italic', cursive;
+}
+
+body {
+    font-family: 'Raleway Regular', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, 
+.nav-item, 
+.section-header {
+    font-family: 'Black Ops One Regular', cursive;
+}
+
+em, i, 
+.highlighted-text, 
+.special-notice {
+    font-family: 'Comic Italic', cursive;
+}

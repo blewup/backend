@@ -1,0 +1,237 @@
+<main id="main-location" class="main container-location inactive" data-page="main-location">
+    <div class="location-shell">
+        <header class="location-page-header">
+            <h1 class="location-page-title">
+                <span class="fr_CA active">GLACE</span>
+                <span class="en_US inactive">ICE</span>
+            </h1>
+        </header>
+        <section class="location-hero">
+            <div class="hero-copy">
+                <h2 class="hero-title">
+                    <span class="fr_CA active">Installation de hockey régionale</span>
+                    <span class="en_US inactive">Regional hockey facility</span>
+                </h2>
+                <p class="hero-lead">
+                    <span class="fr_CA active">Une glace aux normes NHL prête pour les entraînements, tournois et événements corporatifs.</span>
+                    <span class="en_US inactive">An NHL-standard ice surface ready for practices, tournaments, and corporate events.</span>
+                </p>
+                <div class="hero-actions">
+                    <button class="hero-action primary" type="button" data-calendar-open>
+                        <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                        <span class="fr_CA active">Planifier ma glace</span>
+                        <span class="en_US inactive">Book ice time</span>
+                    </button>
+                    <a class="hero-action secondary" href="#facility-overview">
+                        <span class="fr_CA active">Découvrir les installations</span>
+                        <span class="en_US inactive">Discover the facility</span>
+                    </a>
+                </div>
+            </div>
+            <ul class="hero-metrics" aria-label="Indicateurs clés">
+                <li class="metric-card">
+                    <span class="metric-label">
+                        <span class="fr_CA active">Surface</span>
+                        <span class="en_US inactive">Surface</span>
+                    </span>
+                    <span class="metric-value">200' × 85' (61 m × 26 m)</span>
+                </li>
+                <li class="metric-card">
+                    <span class="metric-label">
+                        <span class="fr_CA active">Capacité</span>
+                        <span class="en_US inactive">Capacity</span>
+                    </span>
+                    <span class="metric-value">360&nbsp;places</span>
+                </li>
+                <li class="metric-card">
+                    <span class="metric-label">
+                        <span class="fr_CA active">Vestiaires</span>
+                        <span class="en_US inactive">Locker rooms</span>
+                    </span>
+                    <span class="metric-value">4</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="location-highlights" id="facility-overview">
+            <article class="highlight-card">
+                <i class="fas fa-icicles" aria-hidden="true"></i>
+                <h3>
+                    <span class="fr_CA active">Glace professionnelle</span>
+                    <span class="en_US inactive">Professional ice</span>
+                </h3>
+                <p>
+                    <span class="fr_CA active">Entretien quotidien, bandes sécurisées et chronométrage intégré.</span>
+                    <span class="en_US inactive">Daily maintenance, safe dasher boards, and integrated timing.</span>
+                </p>
+            </article>
+            <article class="highlight-card">
+                <i class="fas fa-users" aria-hidden="true"></i>
+                <h3>
+                    <span class="fr_CA active">Accueil des équipes</span>
+                    <span class="en_US inactive">Team-ready</span>
+                </h3>
+                <p>
+                    <span class="fr_CA active">Vestiaires spacieux avec zones de séchage et accès médias.</span>
+                    <span class="en_US inactive">Spacious locker rooms with drying zones and media access.</span>
+                </p>
+            </article>
+            <article class="highlight-card">
+                <i class="fas fa-mug-hot" aria-hidden="true"></i>
+                <h3>
+                    <span class="fr_CA active">Services sur place</span>
+                    <span class="en_US inactive">On-site services</span>
+                </h3>
+                <p>
+                    <span class="fr_CA active">Bar sportif, restaurant familial et lounge partenaires.</span>
+                    <span class="en_US inactive">Sports bar, family restaurant, and partner lounge.</span>
+                </p>
+            </article>
+        </section>
+
+        <section class="location-rink">
+            <header class="section-header">
+                <h2>
+                    <span class="fr_CA active">Visualisez la patinoire</span>
+                    <span class="en_US inactive">Explore the rink</span>
+                </h2>
+                <p>
+                    <span class="fr_CA active">Choisissez votre configuration : demi-glace ou surface complète.</span>
+                    <span class="en_US inactive">Pick the configuration that fits: half-ice or full surface.</span>
+                </p>
+            </header>
+            <div class="rink-controls" role="tablist" aria-label="Modes de glace">
+                <button class="ice-toggle active" type="button" data-ice-mode="full" role="tab" aria-selected="true">
+                    <span class="fr_CA active">Surface complète</span>
+                    <span class="en_US inactive">Full ice</span>
+                </button>
+                <button class="ice-toggle" type="button" data-ice-mode="left" role="tab" aria-selected="false">
+                    <span class="fr_CA active">Demi-glace gauche</span>
+                    <span class="en_US inactive">Left half-ice</span>
+                </button>
+                <button class="ice-toggle" type="button" data-ice-mode="right" role="tab" aria-selected="false">
+                    <span class="fr_CA active">Demi-glace droite</span>
+                    <span class="en_US inactive">Right half-ice</span>
+                </button>
+            </div>
+            <div class="ice-rink" aria-live="polite">
+                <img src="../assets/images/rink.svg" class="rink-ice" alt="Diagramme de la patinoire complète" loading="lazy">
+                <span class="ice-logo" aria-hidden="true"></span>
+                <div class="half-overlay" data-ice-side="left"></div>
+                <div class="half-overlay" data-ice-side="right"></div>
+            </div>
+        </section>
+
+        <section class="location-pricing">
+            <div class="pricing-card">
+                <h2>
+                    <span class="fr_CA active">Tarification</span>
+                    <span class="en_US inactive">Pricing</span>
+                </h2>
+                <div class="pricing-grid">
+                    <article class="pricing-item">
+                        <h3>
+                            <span class="fr_CA active">Surface complète</span>
+                            <span class="en_US inactive">Full ice</span>
+                        </h3>
+                        <p>
+                            <span class="fr_CA active">200&nbsp;$ / heure</span>
+                            <span class="en_US inactive">$200 / hour</span>
+                        </p>
+                        <p>
+                            <span class="fr_CA active">Bloc de 30&nbsp;minutes&nbsp;: 150&nbsp;$</span>
+                            <span class="en_US inactive">30-minute block: $150</span>
+                        </p>
+                    </article>
+                    <article class="pricing-item">
+                        <h3>
+                            <span class="fr_CA active">Demi-glace</span>
+                            <span class="en_US inactive">Half-ice</span>
+                        </h3>
+                        <p>
+                            <span class="fr_CA active">100&nbsp;$ / 30&nbsp;minutes</span>
+                            <span class="en_US inactive">$100 / 30 minutes</span>
+                        </p>
+                        <p>
+                            <span class="fr_CA active">Heure complète&nbsp;: 150&nbsp;$</span>
+                            <span class="en_US inactive">Full hour: $150</span>
+                        </p>
+                    </article>
+                </div>
+                <ul class="pricing-notes">
+                    <li>
+                        <span class="fr_CA active">* Tarifs sujets à révision selon la saison.</span>
+                        <span class="en_US inactive">* Rates may vary by season.</span>
+                    </li>
+                    <li>
+                        <span class="fr_CA active">* Suppléments applicables pour événements exclusifs.</span>
+                        <span class="en_US inactive">* Additional fees apply for exclusive events.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="facility-grid">
+                <article class="facility-card">
+                    <h3>
+                        <span class="fr_CA active">Horaires de glace</span>
+                        <span class="en_US inactive">Ice availability</span>
+                    </h3>
+                    <p>
+                        <span class="fr_CA active">Lundi au vendredi&nbsp;: 9&nbsp;h – 16&nbsp;h</span>
+                        <span class="en_US inactive">Monday to Friday: 9 AM – 4 PM</span>
+                    </p>
+                    <p>
+                        <span class="fr_CA active">Week-end sur demande pour les événements.</span>
+                        <span class="en_US inactive">Weekends on demand for events.</span>
+                    </p>
+                </article>
+                <article class="facility-card">
+                    <h3>
+                        <span class="fr_CA active">Bar sportif</span>
+                        <span class="en_US inactive">Sports bar</span>
+                    </h3>
+                    <p>
+                        <span class="fr_CA active">Mercredi à vendredi&nbsp;: 21&nbsp;h – fermeture</span>
+                        <span class="en_US inactive">Wednesday to Friday: 9 PM – close</span>
+                    </p>
+                    <p>
+                        <span class="fr_CA active">Écrans HD, menu léger et soirées thématiques.</span>
+                        <span class="en_US inactive">HD screens, light menu, themed nights.</span>
+                    </p>
+                </article>
+                <article class="facility-card">
+                    <h3>
+                        <span class="fr_CA active">Restaurant</span>
+                        <span class="en_US inactive">Restaurant</span>
+                    </h3>
+                    <p>
+                        <span class="fr_CA active">Lundi au vendredi&nbsp;: 16&nbsp;h&nbsp;30 – 23&nbsp;h&nbsp;30</span>
+                        <span class="en_US inactive">Monday to Friday: 4:30 PM – 11:30 PM</span>
+                    </p>
+                    <p>
+                        <span class="fr_CA active">Week-end&nbsp;: 10&nbsp;h&nbsp;30 – 21&nbsp;h&nbsp;30</span>
+                        <span class="en_US inactive">Weekends: 10:30 AM – 9:30 PM</span>
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="location-cta">
+            <div class="cta-card">
+                <h2>
+                    <span class="fr_CA active">Prêt à bloquer votre plage horaire&nbsp;?</span>
+                    <span class="en_US inactive">Ready to secure your ice time?</span>
+                </h2>
+                <p>
+                    <span class="fr_CA active">Ouvrez le calendrier interactif pour choisir vos dates et soumettre votre demande.</span>
+                    <span class="en_US inactive">Open the interactive calendar to pick dates and submit your request.</span>
+                </p>
+                <button class="hero-action primary" type="button" data-calendar-open>
+                    <i class="fas fa-calendar-plus" aria-hidden="true"></i>
+                    <span class="fr_CA active">Ouvrir le calendrier</span>
+                    <span class="en_US inactive">Open calendar</span>
+                </button>
+            </div>
+        </section>
+    </div>
+</main>

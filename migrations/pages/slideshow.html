@@ -1,0 +1,88 @@
+<main id="main-slideshow" class="main container-slideshow inactive" data-page="main-slideshow">
+
+</main>
+    <!-- Previous Button -->
+    <button id="prev-button" title="Previous Image">
+        <svg viewBox="0 0 24 24">
+            <path d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+
+    <!-- Next Button -->
+    <button id="next-button" title="Next Image">
+        <svg viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+
+    <!-- Page Title -->
+    <h1>Image Slideshow CPA</h1>
+
+    <!-- Image Display Area -->
+    <div id="image-display-area" class="image-display-area slideshow-cpa inactive">
+            <img src="../assets/images/slideshow/cpa/001.jpg" alt="CPA 1" onclick="openSlideshow(0)" loading="lazy">
+            <img src="../assets/images/slideshow/cpa/002.jpg" alt="CPA 2" onclick="openSlideshow(1)" loading="lazy">
+            <img src="../assets/images/slideshow/cpa/003.jpg" alt="CPA 3" onclick="openSlideshow(2)" loading="lazy">
+            <img src="../assets/images/slideshow/cpa/004.jpg" alt="CPA 4" onclick="openSlideshow(3)" loading="lazy">
+            <img src="../assets/images/slideshow/cpa/005.jpg" alt="CPA 5" onclick="openSlideshow(4)" loading="lazy">
+            <img src="../assets/images/slideshow/cpa/006.jpg" alt="CPA 6" onclick="openSlideshow(5)" loading="lazy">
+            <img src="../assets/images/slideshow/cpa/007.jpg" alt="CPA 7" onclick="openSlideshow(6)" loading="lazy">
+    </div>
+
+    <div id="image-display-area" class="image-display-area slideshow-familles inactive">
+            <img src="../assets/images/slideshow/familles/001.jpg" alt="Famille 1" onclick="openSlideshow(0)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/002.jpg" alt="Famille 2" onclick="openSlideshow(1)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/003.jpg" alt="Famille 3" onclick="openSlideshow(2)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/004.jpg" alt="Famille 4" onclick="openSlideshow(3)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/005.jpg" alt="Famille 5" onclick="openSlideshow(4)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/006.jpg" alt="Famille 6" onclick="openSlideshow(5)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/007.jpg" alt="Famille 7" onclick="openSlideshow(6)" loading="lazy">
+            <img src="../assets/images/slideshow/familles/008.jpg" alt="Famille 8" onclick="openSlideshow(7)" loading="lazy">
+    </div>
+
+    <div id="image-display-area" class="image-display-area slideshow-feminin inactive">
+            <img src="../assets/images/slideshow/feminin/001.jpg" alt="Féminin 1" onclick="openSlideshow(0)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/002.jpg" alt="Féminin 2" onclick="openSlideshow(1)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/003.jpg" alt="Féminin 3" onclick="openSlideshow(2)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/004.jpg" alt="Féminin 4" onclick="openSlideshow(3)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/005.jpg" alt="Féminin 5" onclick="openSlideshow(4)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/006.jpg" alt="Féminin 6" onclick="openSlideshow(5)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/007.jpg" alt="Féminin 7" onclick="openSlideshow(6)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/008.jpg" alt="Féminin 8" onclick="openSlideshow(7)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/009.jpg" alt="Féminin 9" onclick="openSlideshow(8)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/010.jpg" alt="Féminin 10" onclick="openSlideshow(9)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/011.jpg" alt="Féminin 11" onclick="openSlideshow(10)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/012.jpg" alt="Féminin 12" onclick="openSlideshow(11)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/013.jpg" alt="Féminin 13" onclick="openSlideshow(12)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/014.jpg" alt="Féminin 14" onclick="openSlideshow(13)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/015.jpg" alt="Féminin 15" onclick="openSlideshow(14)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/016.jpg" alt="Féminin 16" onclick="openSlideshow(15)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/017.jpg" alt="Féminin 17" onclick="openSlideshow(16)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/018.jpg" alt="Féminin 18" onclick="openSlideshow(17)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/019.jpg" alt="Féminin 19" onclick="openSlideshow(18)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/020.jpg" alt="Féminin 20" onclick="openSlideshow(19)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/021.jpg" alt="Féminin 21" onclick="openSlideshow(20)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/022.jpg" alt="Féminin 22" onclick="openSlideshow(21)" loading="lazy">
+            <img src="../assets/images/slideshow/feminin/023.jpg" alt="Féminin 23" onclick="openSlideshow(22)" loading="lazy">
+    </div>
+    <!-- Controls Container - Now fixed to bottom right -->
+    <div class="controls-container">
+        <div class="slider-wrapper">
+            <!-- Updated slider min/max -->
+            <input id="speed-slider" type="range" min="-4" max="4" value="0" step="1">
+            
+            <!-- Slider Labels replaced with 9 ruler ticks -->
+            <div classv="ruler-container">
+                <span class="ruler-tick" title="-9s"></span>
+                <span class="ruler-tick" title="-6s"></span>
+                <span class="ruler-tick" title="-3s"></span>
+                <span class="ruler-tick" title="-2s"></span>
+                <span class="ruler-tick" title="Pause"></span>
+                <span class="ruler-tick" title="+2s"></span>
+                <span class="ruler-tick" title="+3s"></span>
+                <span class="ruler-tick" title="+6s"></span>
+                <span class="ruler-tick" title="+9s"></span>
+            </div>
+        </div>
+    </div>
+</main

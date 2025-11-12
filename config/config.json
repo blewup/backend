@@ -1,0 +1,50 @@
+{
+  "development": {
+    "username": "kusher_shurukn",
+    "password": "Christina4032",
+    "database": "kusher_dev",
+    "host": "localhost",
+    "dialect": "mariadb",
+    "port": 3306,
+    "logging": true,
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    }
+  },
+  "test": {
+    "username": "kusher_shurukn",
+    "password": "Christina4032",
+    "database": "kusher_test",
+    "host": "localhost",
+    "dialect": "mariadb",
+    "port": 3306,
+    "logging": false,
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    }
+  },
+  "production": {
+    "username": "kusher_shurukn",
+    "password": "Christina4032",
+    "database": "kusher_prod",
+    "host": "localhost",
+    "dialect": "mariadb",
+    "port": 3306,
+    "logging": false,
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "pool": {
+      "max": 10,
+      "min": 2,
+      "acquire": 30000,
+      "idle": 10000
+    }
+  }
+}

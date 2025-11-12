@@ -1,0 +1,52 @@
+{
+  "name": "kusher-backend",
+  "version": "0.0.1-beta",
+  "description": "Backend API and services for the Kusher Space social and gaming platform.",
+  "main": "server.js",
+  "author": "Billy St-Hilaire (shurukn)",
+  "license": "ISC",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "test": "NODE_ENV=test nodemon server.js",
+    "prod": "NODE_ENV=production node server.js",
+    "build": "NODE_ENV=production node server.js",
+    "preview": "NODE_ENV=test node server.js",
+    "db:init": "node scripts/initDB.js",
+    "db:reset": "NODE_ENV=development node scripts/initDB.js --force",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.10.1",
+    "mariadb": "^3.3.2",
+    "nodemailer": "^6.9.14",
+    "passport": "^0.7.0",
+    "passport-discord": "^0.1.4",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
+    "sequelize": "^6.37.7",
+    "sharp": "^0.34.4",
+    "socket.io": "^4.7.5",
+    "stripe": "^16.1.0",
+    "uuid": "^9.0.1",
+    "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "sequelize-cli": "^6.6.3"
+  }
+}

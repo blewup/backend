@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stratégies de Pratique de Hockey</title>
+    <!-- Chargement de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Définition des variables de couleur et des polices */
+        :root[data-theme="light"] {
+            --color-bg: #f3f4f6; /* bg-gray-100 */
+            --color-bg-card: #ffffff; /* bg-white */
+            --text-color: #1f2937; /* text-gray-800 */
+            --text-color-muted: #4b5563; /* text-gray-600 */
+            --success-color: #059669; /* Vert */
+            --error-color: #dc2626; /* Rouge */
+            --warning-color: #f59e0b; /* Jaune */
+            --calendar-hover-bg: #3b82f6; /* Bleu */
+            --special-color: #a855f7; /* Mauve Fluo */
+            --high-demand-color: #f97316; /* Orange */
+            --dark-gray-color: #4b5563;
+        }
+        
+        body {
+            font-family: "Raleway", sans-serif;
+            background-color: var(--color-bg);
+            color: var(--text-color);
+        }
+
+        h1, h2 {
+            font-family: "Black Ops One", system-ui;
+        }
+
+        /* Styles pour la patinoire SVG */
+        .rink-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: var(--color-bg-card);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hockey-rink {
+            width: 100%;
+            height: auto;
+            background-color: #e0f2fe; /* Glace bleu très pâle */
+            border-radius: 12px;
+            border: 3px solid var(--dark-gray-color);
+        }
+        
+        .rink-line { stroke-width: 2; }
+        .red-line { stroke: var(--error-color); }
+        .blue-line { stroke: var(--calendar-hover-bg); }
+        .goal-crease { stroke: #fbbf24; fill: #fde68a; fill-opacity: 0.5; }
+        .faceoff-circle { stroke: var(--error-color); fill: none; }
+        .faceoff-dot { fill: var(--error-color); }
+
+        /* Styles pour les marqueurs de joueurs */
+        .player-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Black Ops One", system-ui;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transform: translate(-50%, -50%); /* Centrer le marqueur */
+            transition: top 0.3s ease, left 0.3s ease;
+        }
+        
+        .player-marker-o {
+            background-color: var(--success-color);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .player-marker-x {
+            background-color: var(--error-color);
+            color: white;
+            border: 2px solid white;
+        }
+
+        /* NOUVEAU: Marqueur pour la rondelle */
+        .player-marker-puck {
+            background-color: #000;
+            color: white;
+            border: 1px solid white;
+            width: 15px;
+            height: 15px;
+            font-size: 0.7rem;
+        }
+
+        .strategy-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            /* NOUVEAU: Styles pour interactivité */
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 0.25rem;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+        .strategy-list li:hover {
+            background-color: var(--color-bg);
+        }
+        .strategy-list li::before {
+            content: '🔹';
+            position: absolute;
+            left: 0;
+            top: 0.5rem; /* Ajusté pour centrage */
+            color: var(--calendar-hover-bg);
+        }
+
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-center mb-10">Stratégies de Pratique de Hockey</h1>
+
+        <!-- Affichage de la Patinoire -->
+        <div class="rink-container">
+            <!-- NOUVEAU: ID ajouté -->
+            <h2 id="rink-title" class="text-2xl font-semibold text-center mb-4">Exemple de Stratégie : Power Play "Umbrella" (1-3-1)</h2>
+            <!-- NOUVEAU: ID ajouté au conteneur relatif -->
+            <div id="rink-strategy-display" class="relative">
+                <!-- Patinoire SVG -->
+                <svg viewBox="0 0 200 85" class="hockey-rink">
+                    <!-- Lignes -->
+                    <line class="rink-line blue-line" x1="60" y1="0" x2="60" y2="85" />
+                    <line class="rink-line red-line" x1="100" y1="0" x2="100" y2="85" />
+                    <line class="rink-line blue-line" x1="140" y1="0" x2="140" y2="85" />
+                    
+                    <!-- Ligne de but (côté attaque) -->
+                    <line class="rink-line red-line" x1="189" y1="0" x2="189" y2="85" />
+                    <rect x="189" y="38.5" width="2" height="8" fill="var(--error-color)" />
+                    <path class="goal-crease" d="M 189 38 A 4 4 0 0 1 189 47" />
+
+                    <!-- Ligne de but (côté défense) -->
+                    <line class="rink-line red-line" x1="11" y1="0" x2="11" y2="85" />
+                    <rect x="9" y="38.5" width="2" height="8" fill="var(--error-color)" />
+                    <path class="goal-crease" d="M 11 38 A 4 4 0 0 0 11 47" />
+                    
+                    <!-- Cercles de mise au jeu (zone offensive) -->
+                    <circle class="faceoff-circle" cx="165" cy="22" r="5" />
+                    <circle class="faceoff-dot" cx="165" cy="22" r="1" />
+                    <circle class="faceoff-circle" cx="165" cy="63" r="5" />
+                    <circle class="faceoff-dot" cx="165" cy="63" r="1" />
+                    
+                    <!-- Cercles de mise au jeu (zone neutre) -->
+                    <circle class="faceoff-dot" cx="120" cy="22" r="1" />
+                    <circle class="faceoff-dot" cx="120" cy="63" r="1" />
+                    <circle class="faceoff-dot" cx="80" cy="22" r="1" />
+                    <circle class="faceoff-dot" cx="80" cy="63" r="1" />
+
+                    <!-- Cercle central -->
+                    <circle class="faceoff-circle blue-line" cx="100" cy="42.5" r="5" />
+                    <circle class="faceoff-dot blue-line" cx="100" cy="42.5" r="1" />
+                </svg>
+
+                <!-- Les marqueurs de joueurs seront insérés ici par JavaScript -->
+                <!-- NOUVEAU: Les marqueurs statiques ont été supprimés -->
+            </div>
+        </div>
+
+        <!-- Listes de Stratégies -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            
+            <!-- 1. Plus Utilisées -->
+            <div class="bg-white p-6 rounded-lg shadow-lg" style="background-color: var(--color-bg-card);">
+                <h2 class="text-xl font-semibold mb-4 text-center" style="color: var(--success-color);">10 Stratégies les Plus Utilisées</h2>
+                <ul class="strategy-list text-sm">
+                    <!-- NOUVEAU: data-strategy-id ajouté à chaque li -->
+                    <li data-strategy-id="power_skating">Patinage de puissance (Carres, croisements)</li>
+                    <li data-strategy-id="passing_drills">Exercices de passes (Donne-et-va, statique)</li>
+                    <li data-strategy-id="shooting_drills">Ateliers de tirs (Poignets, réception)</li>
+                    <li data-strategy-id="breakouts">Sorties de zone (Breakouts) de base</li>
+                    <li data-strategy-id="forecheck_122">Échec-avant (Forecheck) (ex: 1-2-2)</li>
+                    <li data-strategy-id="d_zone_coverage">Couverture en zone défensive (Devant le filet)</li>
+                    <li data-strategy-id="pp_umbrella">Jeu de puissance (Power Play) (ex: 1-3-1)</li>
+                    <li data-strategy-id="pk_box">Désavantage numérique (Penalty Kill) (ex: Boîte)</li>
+                    <li data-strategy-id="small_area_games">Jeux en espace restreint (3v3, 2v2)</li>
+                    <li data-strategy-id="flow_drills">Échauffements "Flow drills" (en flot)</li>
+                </ul>
+            </div>
+
+            <!-- 2. À Éviter -->
+            <div class="bg-white p-6 rounded-lg shadow-lg" style="background-color: var(--color-bg-card);">
+                <h2 class="text-xl font-semibold mb-4 text-center" style="color: var(--error-color);">10 Stratégies à Éviter</h2>
+                <ul class="strategy-list text-sm">
+                    <li data-strategy-id="long_lines">Longues files d'attente statiques (joueurs froids)</li>
+                    <li data-strategy-id="bag_skates">Patinage punitif ("Bag skates")</li>
+                    <li data-strategy-id="no_puck_drills">Exercices sans rondelle (trop fréquents)</li>
+                    <li data-strategy-id="ignore_goalies">Ignorer les gardiens de but (aucun entraînement)</li>
+                    <li data-strategy-id="overly_complex">Exercices trop compliqués (plus d'explications que d'action)</li>
+                    <li data-strategy-id="no_progression">Manque de progression (toujours les mêmes exercices)</li>
+                    <li data-strategy-id="ignore_weak_side">Ignorer le jeu "côté faible" (loin de la rondelle)</li>
+                    <li data-strategy-id="no_why">Ne pas expliquer le "Pourquoi" des exercices</li>
+                    <li data-strategy-id="end_on_failure">Terminer sur un échec (mauvais moral)</li>
+                    <li data-strategy-id="full_scrimmage">Partie complète durant tout l'entraînement</li>
+                </ul>
+            </div>
+
+            <!-- 3. À Revoir / Travailler -->
+            <div class="bg-white p-6 rounded-lg shadow-lg" style="background-color: var(--color-bg-card);">
+                <h2 class="text-xl font-semibold mb-4 text-center" style="color: var(--warning-color);">10 Stratégies à Revoir</h2>
+                <ul class="strategy-list text-sm">
+                    <li data-strategy-id="neutral_zone_trap">Regroupement en zone neutre ("Traps")</li>
+                    <li data-strategy-id="zone_entries">Entrées de zone (Contrôle vs. Dégagement)</li>
+                    <li data-strategy-id="faceoffs">Mises au jeu (Offensives et défensives)</li>
+                    <li data-strategy-id="attack_6v5">Attaque à 6-contre-5 (Gardien retiré)</li>
+                    <li data-strategy-id="game_6v5_delayed">Jeu à 6-contre-5 (Punition différée)</li>
+                    <li data-strategy-id="net_front_screens">Écrans devant le filet et déviations</li>
+                    <li data-strategy-id="cycling">Protection de la rondelle (Cycling)</li>
+                    <li data-strategy-id="d_stick_position">Positionnement défensif du bâton</li>
+                    <li data-strategy-id="read_forecheck">Lecture de l'échec-avant (D-à-D vs. Bande)</li>
+                    <li data-strategy-id="transition_counter">Transition et contre-attaque rapide</li>
+                </ul>
+            </div>
+
+            <!-- 4. Plus Pratiques -->
+            <div class="bg-white p-6 rounded-lg shadow-lg" style="background-color: var(--color-bg-card);">
+                <h2 class="text-xl font-semibold mb-4 text-center" style="color: var(--calendar-hover-bg);">10 Stratégies les Plus Pratiques</h2>
+                <ul class="strategy-list text-sm">
+                    <li data-strategy-id="sag_intensity">Jeux en espace restreint (intensité, touches)</li>
+                    <li data-strategy-id="station_practice">Pratique en stations (multi-compétences)</li>
+                    <li data-strategy-id="game_situations">Mises en situation de match (avec pression)</li>
+                    <li data-strategy-id="give_and_go">Le "Donne-et-va" (Give-and-Go)</li>
+                    <li data-strategy-id="breakout_pressure">Variations de sorties de zone (avec pression)</li>
+                    <li data-strategy-id="odd_man_rushes">Situations de surnombre (1v1, 2v1, 3v2)</li>
+                    <li data-strategy-id="skating_with_pucks">Patinage de puissance avec rondelles</li>
+                    <li data-strategy-id="corner_battles">Exercices de "bataille" 1v1 dans les coins</li>
+                    <li data-strategy-id="goalie_drills">Exercices spécifiques aux gardiens (déplacements)</li>
+                    <li data-strategy-id="quick_up">Relances rapides (Transition)</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NOUVEAU: Bloc JavaScript complet pour l'interactivité -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Base de données des positions pour chaque stratégie
+            const strategyData = {
+                // --- Plus Utilisées ---
+                'power_skating': {
+                    title: "Patinage de puissance (Carres, croisements)",
+                    players: [
+                        { type: 'o', y: '20%', x: '15%', label: 'O' },
+                        { type: 'o', y: '30%', x: '15%', label: 'O' },
+                        { type: 'o', y: '40%', x: '15%', label: 'O' },
+                        { type: 'o', y: '60%', x: '15%', label: 'O' },
+                        { type: 'o', y: '70%', x: '15%', label: 'O' },
+                        { type: 'o', y: '80%', x: '15%', label: 'O' },
+                    ]
+                },
+                'passing_drills': {
+                    title: "Exercices de passes (Donne-et-va)",
+                    players: [
+                        { type: 'o', y: '30%', x: '70%', label: 'O' },
+                        { type: 'o', y: '70%', x: '70%', label: 'O' },
+                        { type: 'puck', y: '35%', x: '70%', label: 'P' },
+                    ]
+                },
+                'shooting_drills': {
+                    title: "Ateliers de tirs (Poignets, réception)",
+                    players: [
+                        { type: 'o', y: '50%', x: '65%', label: 'O' }, // Bumper
+                        { type: 'o', y: '20%', x: '35%', label: 'O' }, // Pointe
+                        { type: 'puck', y: '25%', x: '35%', label: 'P' },
+                        { type: 'puck', y: '30%', x: '35%', label: 'P' },
+                    ]
+                },
+                'breakouts': {
+                    title: "Sorties de zone (Breakouts) de base",
+                    players: [
+                        { type: 'o', y: '80%', x: '15%', label: 'D' },
+                        { type: 'o', y: '80%', x: '30%', label: 'A' },
+                        { type: 'o', y: '50%', x: '40%', label: 'C' },
+                        { type: 'puck', y: '85%', x: '15%', label: 'P' },
+                    ]
+                },
+                'forecheck_122': {
+                    title: "Échec-avant (Forecheck) (1-2-2)",
+                    players: [
+                        { type: 'o', y: '50%', x: '80%', label: 'F1' },
+                        { type: 'o', y: '30%', x: '65%', label: 'F2' },
+                        { type: 'o', y: '70%', x: '65%', label: 'F3' },
+                        { type: 'o', y: '20%', x: '55%', label: 'D1' },
+                        { type: 'o', y: '80%', x: '55%', label: 'D2' },
+                        { type: 'x', y: '50%', x: '15%', label: 'X' }, // Défenseur adverse
+                        { type: 'puck', y: '50%', x: '10%', label: 'P' },
+                    ]
+                },
+                'd_zone_coverage': {
+                    title: "Couverture en zone défensive",
+                    players: [
+                        { type: 'o', y: '50%', x: '15%', label: 'D' }, // Devant le filet
+                        { type: 'o', y: '80%', x: '20%', label: 'D' }, // Coin
+                        { type: 'o', y: '70%', x: '30%', label: 'A' }, // Enclave
+                        { type: 'o', y: '30%', x: '30%', label: 'A' }, // Enclave
+                        { type: 'o', y: '20%', x: '40%', label: 'C' }, // Pointe
+                        { type: 'x', y: '85%', x: '15%', label: 'X' },
+                        { type: 'puck', y: '90%', x: '10%', label: 'P' },
+                    ]
+                },
+                'pp_umbrella': {
+                    title: 'Power Play "Umbrella" (1-3-1)',
+                    players: [
+                        { type: 'o', y: '50%', x: '65%', label: 'O' }, // Bumper
+                        { type: 'o', y: '15%', x: '75%', label: 'O' }, // Flanc Droit
+                        { type: 'o', y: '85%', x: '75%', label: 'O' }, // Flanc Gauche
+                        { type: 'o', y: '50%', x: '35%', label: 'O' }, // Pointe
+                        { type: 'o', y: '50%', x: '90%', label: 'O' }, // Net-front
+                        { type: 'x', y: '30%', x: '85%', label: 'X' },
+                        { type: 'x', y: '70%', x: '85%', label: 'X' },
+                        { type: 'x', y: '35%', x: '70%', label: 'X' },
+                        { type: 'x', y: '65%', x: '70%', label: 'X' },
+                    ]
+                },
+                'pk_box': {
+                    title: "Désavantage numérique (Penalty Kill) (Boîte)",
+                    players: [
+                        { type: 'x', y: '30%', x: '85%', label: 'X' },
+                        { type: 'x', y: '70%', x: '85%', label: 'X' },
+                        { type: 'x', y: '35%', x: '70%', label: 'X' },
+                        { type: 'x', y: '65%', x: '70%', label: 'X' },
+                    ]
+                },
+                'small_area_games': {
+                    title: "Jeux en espace restreint (3v3, 2v2)",
+                    players: [
+                        { type: 'o', y: '70%', x: '80%', label: 'O' },
+                        { type: 'o', y: '85%', x: '70%', label: 'O' },
+                        { type: 'x', y: '80%', x: '75%', label: 'X' },
+                        { type: 'x', y: '75%', x: '85%', label: 'X' },
+                        { type: 'puck', y: '90%', x: '90%', label: 'P' },
+                    ]
+                },
+                'flow_drills': {
+                    title: "Échauffements 'Flow drills' (en flot)",
+                    players: [
+                        { type: 'o', y: '20%', x: '15%', label: 'O' },
+                        { type: 'o', y: '50%', x: '35%', label: 'O' },
+                        { type: 'o', y: '80%', x: '15%', label: 'O' },
+                        { type: 'puck', y: '25%', x: '15%', label: 'P' },
+                    ]
+                },
+                // --- À Éviter ---
+                'long_lines': {
+                    title: "À Éviter: Longues files d'attente",
+                    players: [
+                        { type: 'o', y: '80%', x: '20%', label: 'O' },
+                        { type: 'o', y: '82%', x: '18%', label: 'O' },
+                        { type: 'o', y: '84%', x: '16%', label: 'O' },
+                        { type: 'o', y: '86%', x: '14%', label: 'O' },
+                        { type: 'o', y: '88%', x: '12%', label: 'O' },
+                        { type: 'o', y: '90%', x: '10%', label: 'O' },
+                    ]
+                },
+                'bag_skates': {
+                    title: 'À Éviter: Patinage punitif ("Bag skates")',
+                    players: [
+                        { type: 'o', y: '50%', x: '15%', label: 'O' },
+                        { type: 'o', y: '50%', x: '25%', label: 'O' },
+                        { type: 'o', y: '50%', x: '35%', label: 'O' },
+                    ]
+                },
+                'no_puck_drills': {
+                    title: "À Éviter: Exercices sans rondelle (trop)",
+                    players: [
+                        { type: 'o', y: '20%', x: '20%', label: 'O' },
+                        { type: 'o', y: '80%', x: '20%', label: 'O' },
+                        { type: 'o', y: '20%', x: '80%', label: 'O' },
+                        { type: 'o', y: '80%', x: '80%', label: 'O' },
+                    ]
+                },
+                'ignore_goalies': {
+                    title: "À Éviter: Ignorer les gardiens",
+                    players: [
+                        { type: 'o', y: '50%', x: '50%', label: 'G' }, // Gardien seul au centre
+                    ]
+                },
+                'overly_complex': {
+                    title: "À Éviter: Exercices trop compliqués",
+                    players: [
+                        { type: 'o', y: '20%', x: '20%', label: '?' },
+                        { type: 'o', y: '80%', x: '20%', label: '?' },
+                        { type: 'o', y: '20%', x: '80%', label: '?' },
+                        { type: 'o', y: '80%', x: '80%', label: '?' },
+                    ]
+                },
+                'no_progression': {
+                    title: "À Éviter: Manque de progression",
+                    players: [
+                        { type: 'o', y: '50%', x: '40%', label: 'O' },
+                        { type: 'o', y: '50%', x: '60%', label: 'O' },
+                    ]
+                },
+                'ignore_weak_side': {
+                    title: "À Éviter: Ignorer le jeu 'côté faible'",
+                    players: [
+                        { type: 'o', y: '80%', x: '80%', label: 'O' }, // Joueur actif
+                        { type: 'o', y: '20%', x: '75%', label: 'O' }, // Côté faible, inactif
+                        { type: 'puck', y: '85%', x: '85%', label: 'P' },
+                    ]
+                },
+                'no_why': {
+                    title: 'À Éviter: Ne pas expliquer le "Pourquoi"',
+                    players: [
+                        { type: 'o', y: '50%', x: '50%', label: '?' },
+                    ]
+                },
+                'end_on_failure': {
+                    title: "À Éviter: Terminer sur un échec",
+                    players: [
+                        { type: 'o', y: '50%', x: '50%', label: ':(' },
+                    ]
+                },
+                'full_scrimmage': {
+                    title: "À Éviter: Partie complète tout le temps",
+                    players: [
+                        { type: 'o', y: '30%', x: '40%', label: 'O' },
+                        { type: 'o', y: '70%', x: '40%', label: 'O' },
+                        { type: 'x', y: '30%', x: '60%', label: 'X' },
+                        { type: 'x', y: '70%', x: '60%', label: 'X' },
+                    ]
+                },
+                // --- À Revoir ---
+                'neutral_zone_trap': {
+                    title: 'À Revoir: Regroupement (Trap) 1-3-1',
+                    players: [
+                        { type: 'o', y: '50%', x: '60%', label: 'F1' },
+                        { type: 'o', y: '20%', x: '50%', label: 'F2' },
+                        { type: 'o', y: '50%', x: '50%', label: 'F3' },
+                        { type: 'o', y: '80%', x: '50%', label: 'D1' },
+                        { type: 'o', y: '50%', x: '35%', label: 'D2' },
+                    ]
+                },
+                'zone_entries': {
+                    title: "À Revoir: Entrées de zone",
+                    players: [
+                        { type: 'o', y: '50%', x: '45%', label: 'O' }, // Porteur
+                        { type: 'o', y: '20%', x: '55%', label: 'O' }, // Support
+                        { type: 'o', y: '80%', x: '55%', label: 'O' }, // Support
+                        { type: 'x', y: '30%', x: '65%', label: 'X' },
+                        { type: 'x', y: '70%', x: '65%', label: 'X' },
+                        { type: 'puck', y: '55%', x: '45%', label: 'P' },
+                    ]
+                },
+                'faceoffs': {
+                    title: "À Revoir: Mises au jeu (Offensives)",
+                    players: [
+                        { type: 'o', y: '26%', x: '82%', label: 'C' },
+                        { type: 'o', y: '20%', x: '75%', label: 'A' },
+                        { type: 'o', y: '20%', x: '65%', label: 'D' },
+                        { type: 'x', y: '20%', x: '82%', label: 'X' },
+                    ]
+                },
+                'attack_6v5': {
+                    title: "À Revoir: Attaque à 6-contre-5",
+                    players: [
+                        { type: 'o', y: '50%', x: '90%', label: 'O' }, // Net
+                        { type: 'o', y: '20%', x: '80%', label: 'O' },
+                        { type: 'o', y: '80%', x: '80%', label: 'O' },
+                        { type: 'o', y: '50%', x: '65%', label: 'O' },
+                        { type: 'o', y: '20%', x: '35%', label: 'O' },
+                        { type: 'o', y: '80%', x: '35%', label: 'O' }, // 6e joueur
+                    ]
+                },
+                'game_6v5_delayed': {
+                    title: "À Revoir: Jeu à 6-contre-5 (Punition différée)",
+                    players: [
+                        { type: 'o', y: '50%', x: '90%', label: 'O' }, 
+                        { type: 'o', y: '20%', x: '80%', label: 'O' },
+                        { type: 'o', y: '80%', x: '80%', label: 'O' },
+                        { type: 'o', y: '50%', x: '65%', label: 'O' },
+                        { type: 'o', y: '20%', x: '35%', label: 'O' },
+                        { type: 'o', y: '80%', x: '35%', label: 'O' }, 
+                    ]
+                },
+                'net_front_screens': {
+                    title: "À Revoir: Écrans devant le filet",
+                    players: [
+                        { type: 'o', y: '50%', x: '88%', label: 'O' }, // Écran
+                        { type: 'o', y: '50%', x: '35%', label: 'D' }, // Pointe
+                        { type: 'x', y: '50%', x: '85%', label: 'X' },
+                        { type: 'puck', y: '50%', x: '40%', label: 'P' },
+                    ]
+                },
+                'cycling': {
+                    title: "À Revoir: Protection (Cycling)",
+                    players: [
+                        { type: 'o', y: '85%', x: '85%', label: 'O' },
+                        { type: 'o', y: '75%', x: '75%', label: 'O' },
+                        { type: 'x', y: '80%', x: '80%', label: 'X' },
+                        { type: 'puck', y: '90%', x: '90%', label: 'P' },
+                    ]
+                },
+                'd_stick_position': {
+                    title: "À Revoir: Positionnement défensif du bâton",
+                    players: [
+                        { type: 'x', y: '50%', x: '70%', label: 'X' }, // Bâton dans la ligne de passe
+                        { type: 'o', y: '20%', x: '80%', label: 'O' },
+                        { type: 'o', y: '80%', x: '80%', label: 'O' },
+                    ]
+                },
+                'read_forecheck': {
+                    title: "À Revoir: Lecture de l'échec-avant (D-à-D)",
+                    players: [
+                        { type: 'o', y: '30%', x: '15%', label: 'D1' },
+                        { type: 'o', y: '70%', x: '15%', label: 'D2' },
+                        { type: 'x', y: '30%', x: '25%', label: 'F1' },
+                        { type: 'puck', y: '35%', x: '15%', label: 'P' },
+                    ]
+                },
+                'transition_counter': {
+                    title: "À Revoir: Transition et contre-attaque",
+                    players: [
+                        { type: 'o', y: '50%', x: '30%', label: 'D' }, // Turnover
+                        { type: 'o', y: '30%', x: '40%', label: 'A' },
+                        { type: 'o', y: '70%', x: '40%', label: 'A' },
+                        { type: 'puck', y: '50%', x: '35%', label: 'P' },
+                    ]
+                },
+                // --- Plus Pratiques ---
+                'sag_intensity': {
+                    title: "Pratique: Jeux en espace restreint (Intensité)",
+                    players: [
+                        { type: 'o', y: '70%', x: '80%', label: 'O' },
+                        { type: 'o', y: '85%', x: '70%', label: 'O' },
+                        { type: 'x', y: '80%', x: '75%', label: 'X' },
+                        { type: 'x', y: '75%', x: '85%', label: 'X' },
+                        { type: 'puck', y: '90%', x: '90%', label: 'P' },
+                    ]
+                },
+                'station_practice': {
+                    title: "Pratique: Pratique en stations",
+                    players: [
+                        { type: 'o', y: '20%', x: '20%', label: 'S1' },
+                        { type: 'o', y: '80%', x: '20%', label: 'S2' },
+                        { type: 'o', y: '20%', x: '80%', label: 'S3' },
+                        { type: 'o', y: '80%', x: '80%', label: 'S4' },
+                    ]
+                },
+                'game_situations': {
+                    title: "Pratique: Mises en situation de match",
+                    players: [
+                        { type: 'o', y: '50%', x: '65%', label: 'O' },
+                        { type: 'o', y: '30%', x: '75%', label: 'O' },
+                        { type: 'x', y: '40%', x: '70%', label: 'X' },
+                        { type: 'x', y: '60%', x: '70%', label: 'X' },
+                        { type: 'puck', y: '50%', x: '70%', label: 'P' },
+                    ]
+                },
+                'give_and_go': {
+                    title: 'Pratique: Le "Donne-et-va" (Give-and-Go)',
+                    players: [
+                        { type: 'o', y: '30%', x: '70%', label: 'O1' },
+                        { type: 'o', y: '70%', x: '70%', label: 'O2' },
+                        { type: 'puck', y: '35%', x: '70%', label: 'P' },
+                    ]
+                },
+                'breakout_pressure': {
+                    title: "Pratique: Sorties de zone (avec pression)",
+                    players: [
+                        { type: 'o', y: '80%', x: '15%', label: 'D' },
+                        { type: 'o', y: '50%', x: '40%', label: 'C' },
+                        { type: 'x', y: '70%', x: '30%', label: 'F1' },
+                        { type: 'puck', y: '85%', x: '15%', label: 'P' },
+                    ]
+                },
+                'odd_man_rushes': {
+                    title: "Pratique: Situations de surnombre (2v1)",
+                    players: [
+                        { type: 'o', y: '30%', x: '60%', label: 'A1' },
+                        { type: 'o', y: '70%', x: '60%', label: 'A2' },
+                        { type: 'x', y: '50%', x: '75%', label: 'D' },
+                        { type: 'puck', y: '35%', x: '60%', label: 'P' },
+                    ]
+                },
+                'skating_with_pucks': {
+                    title: "Pratique: Patinage de puissance avec rondelles",
+                    players: [
+                        { type: 'o', y: '20%', x: '15%', label: 'O' },
+                        { type: 'o', y: '40%', x: '15%', label: 'O' },
+                        { type: 'o', y: '60%', x: '15%', label: 'O' },
+                        { type: 'puck', y: '25%', x: '15%', label: 'P' },
+                        { type: 'puck', y: '45%', x: '15%', label: 'P' },
+                        { type: 'puck', y: '65%', x: '15%', label: 'P' },
+                    ]
+                },
+                'corner_battles': {
+                    title: "Pratique: Bataille 1v1 dans les coins",
+                    players: [
+                        { type: 'o', y: '85%', x: '85%', label: 'O' },
+                        { type: 'x', y: '80%', x: '80%', label: 'X' },
+                        { type: 'puck', y: '90%', x: '90%', label: 'P' },
+                    ]
+                },
+                'goalie_drills': {
+                    title: "Pratique: Exercices spécifiques aux gardiens",
+                    players: [
+                        { type: 'o', y: '50%', x: '80%', label: 'T' }, // Tireur
+                        { type: 'x', y: '50%', x: '92%', label: 'G' }, // Gardien
+                        { type: 'puck', y: '50%', x: '75%', label: 'P' },
+                    ]
+                },
+                'quick_up': {
+                    title: "Pratique: Relances rapides (Transition)",
+                    players: [
+                        { type: 'o', y: '50%', x: '30%', label: 'D' },
+                        { type: 'o', y: '30%', x: '40%', label: 'A' },
+                        { type: 'puck', y: '50%', x: '35%', label: 'P' },
+                    ]
+                }
+            };
+
+            // Éléments du DOM
+            const strategyListItems = document.querySelectorAll('.strategy-list li');
+            const rinkTitle = document.getElementById('rink-title');
+            const rinkDisplay = document.getElementById('rink-strategy-display');
+
+            /**
+             * Dessine la stratégie sélectionnée sur la patinoire
+             * @param {string} strategyId - La clé de la stratégie (ex: 'pp_umbrella')
+             */
+            function drawStrategy(strategyId) {
+                const strategy = strategyData[strategyId];
+                if (!strategy) {
+                    console.warn(`Stratégie non trouvée: ${strategyId}`);
+                    return;
+                }
+
+                // 1. Mettre à jour le titre
+                rinkTitle.textContent = strategy.title;
+
+                // 2. Effacer les anciens marqueurs
+                rinkDisplay.querySelectorAll('.player-marker').forEach(marker => marker.remove());
+
+                // 3. Ajouter les nouveaux marqueurs
+                strategy.players.forEach(p => {
+                    const marker = document.createElement('div');
+                    marker.className = 'player-marker';
+                    
+                    if (p.type === 'o') {
+                        marker.classList.add('player-marker-o');
+                    } else if (p.type === 'x') {
+                        marker.classList.add('player-marker-x');
+                    } else if (p.type === 'puck') {
+                        marker.classList.add('player-marker-puck');
+                    }
+                    
+                    marker.style.top = p.y;
+                    marker.style.left = p.x;
+                    marker.textContent = p.label || '';
+                    
+                    rinkDisplay.appendChild(marker);
+                });
+            }
+
+            // Attacher les écouteurs d'événements
+            strategyListItems.forEach(li => {
+                li.addEventListener('click', () => {
+                    const strategyId = li.dataset.strategyId;
+                    if (strategyId) {
+                        drawStrategy(strategyId);
+                        // Optionnel: Faire défiler vers le haut pour voir la patinoire
+                        window.scrollTo({
+                            top: rinkTitle.offsetTop - 80, // 80px offset
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Dessiner la stratégie par défaut au chargement
+            drawStrategy('pp_umbrella');
+        });
+    </script>
+
+</body>
+</html>
+

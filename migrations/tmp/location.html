@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier de Location (Réservation) 2025-2026</title>
+    <!-- Chargement de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Définition des variables de couleur et des polices */
+        :root[data-theme="light"] {
+            --color-bg: #f3f4f6; /* bg-gray-100 */
+            --color-bg-card: #ffffff; /* bg-white */
+            --text-color: #1f2937; /* text-gray-800 */
+            --text-color-muted: #4b5563; /* text-gray-600 */
+            --success-color: #059669; /* Vert */
+            --error-color: #dc2626; /* Rouge */
+            --warning-color: #f59e0b; /* Jaune */
+            --calendar-hover-bg: #3b82f6; /* Bleu */
+            --special-color: #a855f7; /* Mauve Fluo */
+            --high-demand-color: #f97316; /* Orange */
+            --dark-gray-color: #4b5563;
+        }
+        
+        body {
+            font-family: "Raleway", sans-serif;
+            background-color: var(--color-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: "Black Ops One", system-ui;
+        }
+
+        a, .link {
+            font-family: "Comic Neue", sans-serif;
+            color: var(--calendar-hover-bg);
+            cursor: pointer;
+        }
+        
+        button, .btn {
+            cursor: pointer;
+        }
+
+        /* --- STYLES DES JOURS DU CALENDRIER --- */
+        
+        .day-cell {
+            cursor: crosshair;
+            position: relative;
+            overflow: hidden; 
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+        
+        /* Effet d'ombrage/opacité demandé */
+        .day-cell.available, .day-cell.selected {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .day-cell.available:hover {
+            filter: brightness(1.1);
+            transform: scale(1.03);
+        }
+
+        /* Couleurs de base des cellules */
+        .day-cell.selected {
+            background-color: var(--calendar-hover-bg);
+            background-image: none;
+            color: white !important;
+        }
+        .day-cell.unavailable {
+            background-color: #fecaca; /* bg-red-200 */
+            color: #9ca3af; /* text-gray-400 */
+            cursor: not-allowed;
+            background-image: none;
+        }
+        .day-cell.available {
+            background-color: var(--success-color);
+            background-image: none;
+            color: var(--text-color);
+        }
+        
+        .day-cell.bg-high-demand { background-color: var(--high-demand-color); }
+        .day-cell.bg-holiday { background-color: var(--error-color); color: var(--text-color); }
+        .day-cell.bg-event { background-color: var(--warning-color); color: var(--text-color); }
+        .day-cell.bg-after-june { background-color: var(--calendar-hover-bg); color: white; }
+        .stamp-m {
+            position: absolute;
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: blue;
+            opacity: 0.2;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            pointer-events: none;
+        }
+
+        /* Rayures */
+        .bg-striped-holiday {
+            background: repeating-linear-gradient(-45deg, var(--success-color), var(--success-color) 8px, var(--error-color) 8px, var(--error-color) 16px);
+            text-decoration: underline;
+        }
+        .bg-striped-halloween {
+            background: repeating-linear-gradient(-45deg, var(--high-demand-color), var(--high-demand-color) 8px, var(--dark-gray-color) 8px, var(--dark-gray-color) 16px);
+        }
+        .bg-striped-spring-break {
+             background: repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 8px, var(--dark-gray-color) 8px, var(--dark-gray-color) 16px);
+        }
+        .bg-striped-summer {
+             background: repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 8px, var(--success-color) 8px, var(--success-color) 16px);
+        }
+        
+        .day-cell:not(.unavailable):not(.selected) {
+            background-color: color-mix(in srgb, var(--cell-color, var(--success-color)) 45%, transparent);
+            color: var(--text-color);
+        }
+        
+        /* Styles pour le corps de l'e-mail dans la modale */
+        #mailto-html-body table { width: 100%; border-collapse: collapse; font-family: 'Raleway', sans-serif; color: #333; }
+        #mailto-html-body th, #mailto-html-body td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        #mailto-html-body .email-header { font-family: 'Black Ops One', system-ui; font-size: 20px; text-align: center; border: none; padding-bottom: 10px; }
+        #mailto-html-body .email-subheader { font-family: 'Raleway', sans-serif; font-size: 14px; text-align: center; border: none; padding-bottom: 15px; }
+        #mailto-html-body .email-divider { border: none; text-align: center; padding-top: 5px; padding-bottom: 5px; }
+        
+        /* Styles pour la Grille Calendrier (12 mois) */
+        #calendar-container {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* Mobile: 1 colonne */
+            gap: 2rem;
+        }
+        /* sm: 640px */
+        @media (min-width: 640px) {
+            #calendar-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        /* lg: 1024px */
+        @media (min-width: 1024px) {
+            #calendar-container { grid-template-columns: repeat(3, 1fr); }
+        }
+        /* xl: 1280px */
+        @media (min-width: 1280px) {
+            #calendar-container { grid-template-columns: repeat(4, 1fr); }
+        }
+
+
+        .calendar-month-grid {
+            background-color: var(--color-bg-card);
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1rem 1.5rem;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px; 
+        }
+        .calendar-grid .day-header {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-color-muted);
+            text-align: center;
+        }
+        
+        /* Styles pour la Légende (Charte) */
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .legend-color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Styles pour l'aperçu du Footer */
+        #footer-preview-modal-content {
+            display: flex;
+            flex-direction: row; /* Légende à côté */
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+        #footer-calendar-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 mois côte à côte */
+            gap: 1rem;
+            width: 26vw; 
+            min-width: 300px; /* Taille minimale pour la lisibilité */
+        }
+        /* Overrides pour les mini-calendriers */
+        .footer-calendar .calendar-grid {
+            gap: 1px;
+        }
+        .footer-calendar .day-cell {
+            font-size: 0.5rem; /* Illisible comme demandé */
+            padding: 0;
+            height: 12px;
+            width: 100%;
+            border-radius: 2px;
+        }
+        .footer-calendar .day-header {
+            font-size: 0.6rem;
+            font-weight: 500;
+        }
+        .footer-calendar .stamp-m {
+            font-size: 0.8rem;
+        }
+        /* Légende du footer */
+        #footer-legend-container {
+            flex-shrink: 0;
+            width: 200px; /* Largeur fixe pour la légende simplifiée */
+        }
+        .footer-legend .legend-color-box {
+            width: 15px;
+            height: 15px;
+        }
+        .footer-legend .legend-item {
+            margin-bottom: 0.25rem;
+        }
+        .footer-legend span {
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto relative">
+        
+        <!-- Bouton de langue -->
+        <div class="absolute top-4 right-4 md:top-8 md:right-8 z-20">
+            <button id="lang-toggle" class="px-4 py-2 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75" style="font-family: 'Comic Neue', sans-serif;">
+                EN
+            </button>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-8">2025 - 2026</h1>
+
+        <!-- Bloc d'informations utilisateur -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8 max-w-3xl mx-auto" style="background-color: var(--color-bg-card);">
+            <h2 class="text-2xl font-semibold mb-4" data-lang="infoTitle">Vos informations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="requester-name" class="block text-sm font-medium" style="color: var(--text-color-muted);" data-lang="infoName">Nom complet</label>
+                    <input type="text" id="requester-name" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Votre nom" data-lang-placeholder="infoNamePlaceholder" style="transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label for="requester-phone" class="block text-sm font-medium" style="color: var(--text-color-muted);" data-lang="infoPhone">Téléphone</label>
+                    <input type="tel" id="requester-phone" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Votre numéro" data-lang-placeholder="infoPhonePlaceholder" style="transition: border-color 0.3s;">
+                </div>
+                <div class="md:col-span-2">
+                    <label for="requester-availability" class="block text-sm font-medium" style="color: var(--text-color-muted);" data-lang="infoAvail">Fenêtre de disponibilité (optionnel)</label>
+                    <textarea id="requester-availability" rows="3" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="ex: Je suis aussi disponible les mardis après-midi..." data-lang-placeholder="infoAvailPlaceholder"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boîte de message -->
+        <div id="message-box" class="hidden max-w-3xl mx-auto mb-4 p-4 rounded-md"></div>
+
+        <!-- Conteneur "Page Location" -->
+        <div id="main-calendar-view" class="mb-8">
+            <!-- Grille pour 12 mois -->
+            <div id="calendar-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Les calendriers (12) seront insérés ici par JavaScript -->
+            </div>
+            
+            <!-- Légende (Charte) Principale -->
+            <div id="main-legend" class="max-w-5xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg" style="background-color: var(--color-bg-card);">
+                <h3 class="text-xl font-semibold mb-4" data-lang="legendTitle">Légende</h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- La légende sera insérée ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton de confirmation final -->
+        <div class="mt-8 text-center">
+            <button id="confirm-reservation-btn" class="px-8 py-3 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-opacity-75" style="background-color: var(--success-color); --tw-ring-color: var(--success-color);" data-lang="confirmBtn">
+                Confirmer et Envoyer la Réservation
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer avec lien -->
+    <footer class="text-center mt-12 py-4 border-t border-gray-300">
+        <button id="footer-calendar-toggle" class="text-lg link font-semibold">
+            <i class="fas fa-calendar-alt mr-2"></i><span data-lang="footerLink">Calendrier :</span> <span data-lang="footerLinkView">Aperçu</span>
+        </button>
+    </footer>
+
+    <!-- Modal pour la sélection de l'heure -->
+    <div id="selection-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md" style="background-color: var(--color-bg-card);">
+            <h3 class="text-lg font-semibold mb-2" data-lang="modalTitle">Faire une réservation</h3>
+            <p class="text-gray-700 mb-4" id="modal-date-display">Date: </p>
+            <div class="mb-4">
+                 <label for="modal-request-type" class="block text-sm font-medium" style="color: var(--text-color-muted);" data-lang="modalReqType">Type de demande</label>
+                 <select id="modal-request-type" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <option value="add" data-lang="modalReqAdd">Ajout (9h-16h)</option>
+                    <option value="add_high" data-lang="modalReqAddHigh">Ajout - Période achalandée (16h-22h)</option>
+                    <option value="remove" data-lang="modalReqRemove">Requête spéciale (Retrait, etc.)</option>
+                 </select>
+            </div>
+            <div id="modal-time-wrapper" class="mb-4">
+                <label class="block text-sm font-medium" style="color: var(--text-color-muted);" data-lang="modalTime">Plage horaire</label>
+                <div class="flex items-center space-x-2">
+                    <select id="modal-time-start" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></select>
+                    <span style="color: var(--text-color-muted);">à</span>
+                    <select id="modal-time-end" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></select>
+                </div>
+                <p id="modal-time-error" class="text-xs text-red-600 mt-1 hidden" data-lang="modalTimeError">L'heure de fin doit être après l'heure de début.</p>
+            </div>
+            <div id="modal-reason-wrapper" class="mb-4 hidden">
+                <label for="modal-reason" class="block text-sm font-medium" style="color: var(--text-color-muted);" data-lang="modalReason">Motif de la requête spéciale</label>
+                <input type="text" id="modal-reason" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="ex: Demande de retrait 10h-11h" data-lang-placeholder="modalReasonPlaceholder">
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button id="modal-cancel" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300" style="color: var(--text-color);" data-lang="modalCancel">Annuler</button>
+                <button id="modal-confirm" class="px-4 py-2 text-white rounded-md" style="background-color: var(--calendar-hover-bg);" data-lang="modalConfirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Mailto -->
+    <div id="mailto-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-3xl" style="background-color: var(--color-bg-card);">
+            <h3 class="text-xl font-semibold mb-4" data-lang="mailModalTitle">Confirmez votre envoi</h3>
+            <p class="mb-4" style="color: var(--text-color-muted);" data-lang="mailModalOpt1">
+                Option 1 : Cliquez pour ouvrir votre client de messagerie (texte simple seulement).
+            </p>
+            <a id="mailto-modal-link" href="#" class="block w-full text-center px-6 py-3 text-white font-semibold rounded-lg shadow-md mb-4" style="background-color: var(--calendar-hover-bg);" data-lang="mailModalLink">
+                Ouvrir mon client de messagerie (Fallback)
+            </a>
+            <hr class="my-4">
+            <p class="mb-2 text-sm" style="color: var(--text-color-muted);" data-lang="mailModalOpt2">
+                Option 2 (Recommandée) : Copiez le contenu formaté ci-dessous et collez-le dans un nouvel e-mail adressé à :
+                <strong style="color: var(--text-color);">glaplante@csrlc.ca</strong>
+            </p>
+            <div id="mailto-html-body" class="w-full p-4 border border-gray-300 rounded-md bg-gray-50 text-sm overflow-auto" style="min-height: 200px; max-height: 40vh; background-color: white;" contenteditable="true"></div>
+            <textarea id="mailto-fallback-body" class="hidden"></textarea>
+            <div class="mt-4 flex justify-end">
+                <button id="mailto-modal-close" class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300" style="color: var(--text-color);" data-lang="mailModalClose">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale pour l'Aperçu du Footer -->
+    <div id="footer-preview-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-xl" style="background-color: var(--color-bg-card);">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold" data-lang="footerPreviewTitle">Aperçu du Calendrier</h3>
+                <button id="footer-preview-close" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <!-- Contenu de la modale (calendriers + légende) -->
+            <div id="footer-preview-modal-content">
+                <div id="footer-calendar-container">
+                    <!-- Mini-calendriers (des 2 prochains mois) insérés ici -->
+                </div>
+                <div id="footer-legend-container" class="footer-legend">
+                    <!-- Légende simplifiée insérée ici -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // === DOM Elements ===
+            const calendarContainer = document.getElementById('calendar-container');
+            
+            // Footer
+            const footerToggle = document.getElementById('footer-calendar-toggle');
+            const footerPreviewModal = document.getElementById('footer-preview-modal');
+            const footerPreviewClose = document.getElementById('footer-preview-close');
+            const footerCalendarContainer = document.getElementById('footer-calendar-container');
+            const footerLegendContainer = document.getElementById('footer-legend-container');
+            const mainLegendContainer = document.querySelector('#main-legend .grid');
+
+            // Modales
+            const modal = document.getElementById('selection-modal');
+            const modalDateDisplay = document.getElementById('modal-date-display');
+            const modalRequestType = document.getElementById('modal-request-type');
+            const modalTimeWrapper = document.getElementById('modal-time-wrapper');
+            const modalTimeStart = document.getElementById('modal-time-start');
+            const modalTimeEnd = document.getElementById('modal-time-end');
+            const modalTimeError = document.getElementById('modal-time-error');
+            const modalReasonWrapper = document.getElementById('modal-reason-wrapper');
+            const modalReason = document.getElementById('modal-reason');
+            const modalConfirm = document.getElementById('modal-confirm');
+            const modalCancel = document.getElementById('modal-cancel');
+            
+            // Mailto
+            const mailtoModal = document.getElementById('mailto-modal');
+            const mailtoModalLink = document.getElementById('mailto-modal-link');
+            const mailtoFallbackBody = document.getElementById('mailto-fallback-body');
+            const mailtoHtmlBody = document.getElementById('mailto-html-body');
+            const mailtoModalClose = document.getElementById('mailto-modal-close');
+            
+            // Infos
+            const confirmReservationBtn = document.getElementById('confirm-reservation-btn');
+            const requesterName = document.getElementById('requester-name');
+            const requesterPhone = document.getElementById('requester-phone');
+            const requesterAvailability = document.getElementById('requester-availability');
+            const messageBox = document.getElementById('message-box');
+            const langToggle = document.getElementById('lang-toggle');
+
+            // === State ===
+            
+            // FORCER LA DATE (comme demandé: Nov 1 2025)
+            const today = new Date(2025, 10, 1); // 10 = Novembre
+            
+            const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const twoWeeksFromNow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 14);
+            const twoMonthsFromNow = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
+
+            let selectedCell = null;
+            let selectedDateInfo = null;
+            const selections = {}; 
+            let currentLang = 'fr';
+            
+            // === Traductions (uiStrings) ===
+            const uiStrings = {
+                fr: {
+                    dayNames: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                    infoTitle: 'Vos informations',
+                    infoName: 'Nom complet',
+                    infoNamePlaceholder: 'Votre nom',
+                    infoPhone: 'Téléphone',
+                    infoPhonePlaceholder: 'Votre numéro',
+                    infoAvail: 'Fenêtre de disponibilité (optionnel)',
+                    infoAvailPlaceholder: 'ex: Je suis aussi disponible les mardis après-midi...',
+                    confirmBtn: 'Confirmer et Envoyer la Réservation',
+                    modalTitle: 'Faire une réservation',
+                    modalDate: 'Date: ',
+                    modalReqType: 'Type de demande',
+                    modalReqAdd: 'Ajout (9h-16h)',
+                    modalReqAddHigh: 'Ajout - Période achalandée (16h-22h)',
+                    modalReqRemove: 'Requête spéciale (Retrait, etc.)',
+                    modalTime: 'Plage horaire',
+                    modalTimeError: "L'heure de fin doit être après l'heure de début.",
+                    modalReason: 'Motif de la requête spéciale',
+                    modalReasonPlaceholder: 'ex: Demande de retrait 10h-11h',
+                    modalReasonError: "Veuillez entrer un motif.",
+                    modalCancel: 'Annuler',
+                    modalConfirm: 'Confirmer',
+                    mailModalTitle: 'Confirmez votre envoi',
+                    mailModalOpt1: 'Option 1 : Cliquez pour ouvrir votre client de messagerie (texte simple seulement).',
+                    mailModalLink: 'Ouvrir mon client de messagerie (Fallback)',
+                    mailModalOpt2: 'Option 2 (Recommandée) : Copiez le contenu formaté ci-dessous et collez-le dans un nouvel e-mail adressé à :',
+                    mailModalClose: 'Fermer',
+                    errorNoName: 'Veuillez entrer votre nom et votre numéro de téléphone.',
+                    errorNoSelection: 'Veuillez sélectionner au moins une plage horaire.',
+                    locale: 'fr-FR',
+                    weekDay: 'long',
+                    receptionTimeConnector: "à",
+                    emailDate: "Date",
+                    emailType: "+/-",
+                    emailContent: "Plage Horaire / Requête",
+                    emailDesiredDates: "DATES SOUHAITÉES",
+                    emailThanks: "Merci.",
+                    toggleLang: 'EN',
+                    legendTitle: 'Légende',
+                    footerLink: 'Calendrier :',
+                    footerLinkView: 'Aperçu',
+                    footerPreviewTitle: 'Aperçu du Calendrier',
+                    legend: {
+                        "available": "Disponible (Semaine)",
+                        "weekend_soon": "Disponible (FDS / Sur-demande)",
+                        "selected": "Votre sélection",
+                        "event": "Événement (Bourse)",
+                        "holiday_period": "Congé des Fêtes (Souligné)",
+                        "spring_break": "Relâche (Bleu/Gris)",
+                        "summer": "Estival (Bleu/Vert)",
+                        "after_june": "Après 1er Juin (Bleu 'M')",
+                        "unavailable": "Passé / Indisponible"
+                    },
+                    footerLegend: {
+                        "available": "Disponible",
+                        "selected": "Sélection",
+                        "holiday_period": "Congés",
+                        "unavailable": "Indisponible"
+                    }
+                },
+                en: {
+                    dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                    infoTitle: 'Your Information',
+                    infoName: 'Full Name',
+                    infoNamePlaceholder: 'Your name',
+                    infoPhone: 'Phone',
+                    infoPhonePlaceholder: 'Your number',
+                    infoAvail: 'Availability window (optional)',
+                    infoAvailPlaceholder: 'ex: I am also available Tuesday afternoons...',
+                    confirmBtn: 'Confirm and Send Reservation',
+                    modalTitle: 'Make a Reservation',
+                    modalDate: 'Date: ',
+                    modalReqType: 'Request Type',
+                    modalReqAdd: 'Add (9am-4pm)',
+                    modalReqAddHigh: 'Add - High-demand period (4pm-10pm)',
+                    modalReqRemove: 'Special Request (Removal, etc.)',
+                    modalTime: 'Time Slot',
+                    modalTimeError: 'End time must be after start time.',
+                    modalReason: 'Reason for special request',
+                    modalReasonPlaceholder: 'ex: Request removal 10am-11am',
+                    modalReasonError: "Please enter a reason.",
+                    modalCancel: 'Cancel',
+                    modalConfirm: 'Confirm',
+                    mailModalTitle: 'Confirm Your Submission',
+                    mailModalOpt1: 'Option 1: Click to open your email client (plain text only).',
+                    mailModalLink: 'Open My Email Client (Fallback)',
+                    mailModalOpt2: 'Option 2 (Recommended): Copy the formatted content below and paste it into a new email addressed to:',
+                    mailModalClose: 'Close',
+                    errorNoName: 'Please enter your name and phone number.',
+                    errorNoSelection: 'Please select at least one time slot.',
+                    locale: 'en-US',
+                    weekDay: 'long',
+                    receptionTimeConnector: "at",
+                    emailDate: "Date",
+                    emailType: "+/-",
+                    emailContent: "Time Slot / Request",
+                    emailDesiredDates: "DESIRED DATES",
+                    emailThanks: "Thank you.",
+                    toggleLang: 'FR',
+                    legendTitle: 'Legend',
+                    footerLink: 'Calendar:',
+                    footerLinkView: 'Preview',
+                    footerPreviewTitle: 'Calendar Preview',
+                    legend: {
+                        "available": "Available (Weekday)",
+                        "weekend_soon": "Available (Weekend / High-demand)",
+                        "selected": "Your Selection",
+                        "event": "Event (Bourse)",
+                        "holiday_period": "Holidays (Underlined)",
+                        "spring_break": "Spring Break (Blue/Grey)",
+                        "summer": "Summer (Blue/Green)",
+                        "after_june": "After June 1st (Blue 'M')",
+                        "unavailable": "Past / Unavailable"
+                    },
+                    footerLegend: {
+                        "available": "Available",
+                        "selected": "Selection",
+                        "holiday_period": "Holidays",
+                        "unavailable": "Unavailable"
+                    }
+                }
+            };
+
+            // === Fonctions de Validation ===
+            
+            function validateName() {
+                const name = requesterName.value.trim();
+                if (name !== '') {
+                    requesterName.style.borderColor = 'var(--success-color)';
+                    requesterName.style.borderWidth = '2px';
+                } else {
+                    requesterName.style.borderColor = '#d1d5db';
+                    requesterName.style.borderWidth = '1px';
+                }
+            }
+            function formatAndValidatePhone(e) {
+                let cleanVal = e.target.value.replace(/\D/g, ''); 
+                if (cleanVal.length > 10) cleanVal = cleanVal.substring(0, 10);
+                let finalVal = '';
+                if (cleanVal.length > 6) finalVal = `${cleanVal.substring(0, 3)}-${cleanVal.substring(3, 6)}-${cleanVal.substring(6)}`;
+                else if (cleanVal.length > 3) finalVal = `${cleanVal.substring(0, 3)}-${cleanVal.substring(3)}`;
+                else finalVal = cleanVal;
+                e.target.value = finalVal;
+                const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+                if (phoneRegex.test(finalVal)) {
+                    requesterPhone.style.borderColor = 'var(--success-color)';
+                    requesterPhone.style.borderWidth = '2px';
+                } else {
+                    requesterPhone.style.borderColor = '#d1d5db';
+                    requesterPhone.style.borderWidth = '1px';
+                }
+            }
+
+            // === Fonction de Traduction ===
+            
+            function setLanguage(lang) {
+                currentLang = lang;
+                const s = uiStrings[lang];
+                document.documentElement.lang = lang;
+                
+                // Traduction des éléments statiques
+                document.querySelectorAll('[data-lang]').forEach(el => {
+                    const key = el.dataset.lang;
+                    if (s[key]) el.textContent = s[key];
+                });
+                document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+                    const key = el.dataset.langPlaceholder;
+                    if (s[key]) el.placeholder = s[key];
+                });
+                
+                // Mettre à jour les labels
+                langToggle.textContent = s.toggleLang;
+                document.querySelector('label[for="requester-name"]').textContent = s.infoName;
+                document.querySelector('label[for="requester-phone"]').textContent = s.infoPhone;
+                document.querySelector('label[for="requester-availability"]').textContent = s.infoAvail;
+                confirmReservationBtn.textContent = s.confirmBtn;
+                document.querySelector('label[for="modal-request-type"]').textContent = s.modalReqType;
+                modalTimeWrapper.querySelector('label').textContent = s.modalTime;
+                modalReasonWrapper.querySelector('label').textContent = s.modalReason;
+                mailtoModal.querySelectorAll('p')[1].innerHTML = `${s.mailModalOpt2} <strong style="color: var(--text-color);">glaplante@csrlc.ca</strong>`;
+
+                // Recréer les éléments dynamiques
+                generateCalendars(); // Grille principale (12 mois)
+                generateFooterCalendars(); // Aperçu footer (2 mois)
+                populateLegends(); // Les deux légendes
+            }
+
+            // === Fonctions Logiques (Couleurs, Dates) ===
+            
+            function getSpecialDayInfo(date) {
+                const y = date.getFullYear();
+                const m = date.getMonth(); // 0-11
+                const d = date.getDate();
+                const dayOfWeek = date.getDay();
+ 
+                // 1. Jours passés
+                if (date < todayDateOnly) {
+                    return { type: 'unavailable', class: 'unavailable', cssVar: 'var(--error-color)', stamp: null };
+                }
+ 
+                // 2. Événement "Bourse" (jusqu'au 21 Nov 2025)
+                if (y === 2025 && m === 10 && d <= 21) {
+                    return { type: 'event', class: 'bg-event', cssVar: 'var(--warning-color)', stamp: null };
+                }
+                
+                // 3. Après le 1er Juin 2026
+                if (date >= new Date(2026, 5, 1)) {
+                     return { type: 'after_june', class: 'bg-after-june', cssVar: 'var(--calendar-hover-bg)', stamp: 'M' };
+                }
+                
+                // 4. Période estivale (Juin, Juillet, Août 2026)
+                if (y === 2026 && m >= 5 && m <= 7) {
+                    return { type: 'summer', class: 'bg-striped-summer', cssVar: 'var(--success-color)', stamp: null };
+                }
+
+                // 5. Halloween
+                if (m === 9 && d === 31) {
+                    return { type: 'holiday', class: 'bg-striped-halloween', cssVar: 'var(--high-demand-color)', stamp: null };
+                }
+                
+                // 6. Période des Fêtes (22 Déc au 9 Jan)
+                if ((y === 2025 && m === 11 && d >= 22) || (y === 2026 && m === 0 && d <= 9)) {
+                    return { type: 'holiday_period', class: 'bg-striped-holiday', cssVar: 'var(--error-color)', stamp: null };
+                }
+                
+                // 7. Semaine de relâche (Semaine du 2 Mars 2026)
+                if (y === 2026 && m === 2 && d >= 2 && d <= 6) {
+                    return { type: 'spring_break', class: 'bg-striped-spring-break', cssVar: 'var(--calendar-hover-bg)', stamp: null };
+                }
+                
+                // 8. Logique des Week-ends
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    if (date < twoWeeksFromNow) return { type: 'unavailable', class: 'unavailable', cssVar: 'var(--error-color)', stamp: null };
+                    if (date >= twoWeeksFromNow && date <= twoMonthsFromNow) return { type: 'weekend_soon', class: 'bg-high-demand', cssVar: 'var(--high-demand-color)', stamp: null };
+                    else return { type: 'unavailable', class: 'unavailable', cssVar: 'var(--error-color)', stamp: null };
+                }
+                
+                // 9. Jours de semaine normaux
+                return { type: 'available', class: 'available', cssVar: 'var(--success-color)', stamp: null };
+            }
+ 
+            function populateTimeDropdowns(type = 'add') {
+                modalTimeStart.innerHTML = '';
+                modalTimeEnd.innerHTML = '';
+                let startHour, endHour;
+                if (type === 'add_high') { startHour = 16; endHour = 22; }
+                else { startHour = 9; endHour = 16; }
+                for (let h = startHour; h <= endHour; h++) {
+                    if (h < endHour) {
+                        modalTimeStart.add(new Option(`${h}:00`, `${h}:00`));
+                        modalTimeStart.add(new Option(`${h}:30`, `${h}:30`));
+                    }
+                    if (h > startHour) {
+                        if(h < endHour || (h === endHour && type === 'add')) modalTimeEnd.add(new Option(`${h}:00`, `${h}:00`));
+                        if(h <= endHour && h > startHour) modalTimeEnd.add(new Option(`${h}:30`, `${h}:30`));
+                    }
+                }
+                // Ajustements manuels pour les bornes
+                if(type === 'add') {
+                    if(modalTimeEnd.options[0].value !== "9:30") modalTimeEnd.add(new Option("9:30", "9:30"), 0);
+                    if(modalTimeEnd.options[modalTimeEnd.options.length-1].value !== "16:00") modalTimeEnd.add(new Option("16:00", "16:00"));
+                }
+                if(type === 'add_high') {
+                    if(modalTimeEnd.options[0].value !== "16:30") modalTimeEnd.add(new Option("16:30", "16:30"), 0);
+                    if(modalTimeEnd.options[modalTimeEnd.options.length-1].value !== "22:00") modalTimeEnd.add(new Option("22:00", "22:00"));
+                }
+            }
+            
+            // === Fonctions de Rendu ===
+
+            /**
+             * Crée UN calendrier pour un mois donné
+             */
+            function createMonthCalendar(date, context = 'main') {
+                const s = uiStrings[currentLang];
+                const dayNames = s.dayNames;
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const monthName = date.toLocaleString(s.locale, { month: 'long' });
+                const monthNumber = month + 1;
+
+                // Conteneur principal
+                const monthWrapper = document.createElement('div');
+                if (context === 'main') {
+                    monthWrapper.className = 'calendar-month-grid';
+                } else { // 'footer'
+                    monthWrapper.className = 'footer-calendar';
+                }
+
+                const title = document.createElement('h2');
+                title.className = 'text-center mb-4';
+                title.textContent = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} - ${monthNumber}`;
+                if(context === 'main') title.className += ' text-2xl font-semibold';
+                else title.className += ' text-lg font-semibold';
+                monthWrapper.appendChild(title);
+
+                const daysGrid = document.createElement('div');
+                daysGrid.className = 'calendar-grid';
+
+                dayNames.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = (context === 'main') ? 'day-header' : 'day-header text-center';
+                    dayHeader.textContent = day;
+                    daysGrid.appendChild(dayHeader);
+                });
+
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                for (let j = 0; j < firstDayOfMonth; j++) {
+                    daysGrid.appendChild(document.createElement('div'));
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = document.createElement('div');
+                    const dayDate = new Date(year, month, day);
+                    const dateString = dayDate.toISOString().split('T')[0];
+                    const dayInfo = getSpecialDayInfo(dayDate);
+
+                    dayCell.textContent = day;
+                    dayCell.className = 'day-cell rounded-md';
+                    dayCell.dataset.date = dateString;
+                    dayCell.classList.add(dayInfo.class);
+                    dayCell.style.setProperty('--cell-color', dayInfo.cssVar);
+
+                    if (dayInfo.stamp === 'M') {
+                        const stamp = document.createElement('span');
+                        stamp.className = 'stamp-m';
+                        stamp.textContent = 'M';
+                        dayCell.appendChild(stamp);
+                    }
+                    
+                    if (selections[dateString] && selections[dateString].length > 0) {
+                        dayCell.classList.remove('available', dayInfo.class);
+                        dayCell.classList.add('selected');
+                    } else if (dayInfo.type === 'past' || dayInfo.type === 'unavailable') {
+                         dayCell.classList.add('unavailable');
+                         dayCell.classList.remove('available');
+                    }
+                    
+                    daysGrid.appendChild(dayCell);
+                }
+                
+                monthWrapper.appendChild(daysGrid);
+                return monthWrapper;
+            }
+            
+            /**
+             * Génère les 12 calendriers pour la grille principale
+             */
+            function generateCalendars() {
+                calendarContainer.innerHTML = '';
+                // Commence en Septembre 2025
+                const startMonth = new Date(2025, 8, 1); // 8 = Septembre
+                const totalMonths = 12;
+                
+                for (let i = 0; i < totalMonths; i++) {
+                    const currentMonth = new Date(startMonth.getFullYear(), startMonth.getMonth() + i, 1);
+                    const calendarEl = createMonthCalendar(currentMonth, 'main');
+                    calendarContainer.appendChild(calendarEl);
+                }
+            }
+
+            /**
+             * Génère les 2 calendriers (prochains mois) pour l'aperçu du footer
+             */
+            function generateFooterCalendars() {
+                footerCalendarContainer.innerHTML = '';
+                // Utilise la date 'today' (Nov 2025)
+                const startMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+                const totalMonths = 2;
+                
+                for (let i = 0; i < totalMonths; i++) {
+                    const currentMonth = new Date(startMonth.getFullYear(), startMonth.getMonth() + i, 1);
+                    const calendarEl = createMonthCalendar(currentMonth, 'footer');
+                    footerCalendarContainer.appendChild(calendarEl);
+                }
+            }
+
+            /**
+             * Remplit les deux légendes (principale et footer)
+             */
+            function populateLegends() {
+                const s = uiStrings[currentLang];
+                mainLegendContainer.innerHTML = '';
+                footerLegendContainer.innerHTML = '';
+                
+                // Définition des couleurs pour les légendes
+                const legendColors = {
+                    "available": "var(--success-color)",
+                    "weekend_soon": "var(--high-demand-color)",
+                    "selected": "var(--calendar-hover-bg)",
+                    "event": "var(--warning-color)",
+                    "holiday_period": "var(--error-color)", 
+                    "spring_break": "var(--calendar-hover-bg)",
+                    "summer": "var(--success-color)",
+                    "after_june": "var(--calendar-hover-bg)",
+                    "unavailable": "#fecaca" // bg-red-200
+                };
+                
+                // 1. Légende Principale (détaillée)
+                for (const key in s.legend) {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const colorBox = document.createElement('div');
+                    colorBox.className = 'legend-color-box';
+                    colorBox.style.backgroundColor = legendColors[key];
+                    if(key === 'holiday_period') colorBox.style.background = 'repeating-linear-gradient(-45deg, var(--success-color), var(--success-color) 4px, var(--error-color) 4px, var(--error-color) 8px)';
+                    if(key === 'spring_break') colorBox.style.background = 'repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 4px, var(--dark-gray-color) 4px, var(--dark-gray-color) 8px)';
+                    if(key === 'summer') colorBox.style.background = 'repeating-linear-gradient(-45deg, var(--calendar-hover-bg), var(--calendar-hover-bg) 4px, var(--success-color) 4px, var(--success-color) 8px)';
+                    
+                    const text = document.createElement('span');
+                    text.className = 'text-sm';
+                    text.textContent = s.legend[key];
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(text);
+                    mainLegendContainer.appendChild(item);
+                }
+
+                // 2. Légende Footer (simplifiée)
+                 for (const key in s.footerLegend) {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const colorBox = document.createElement('div');
+                    colorBox.className = 'legend-color-box';
+                    colorBox.style.backgroundColor = legendColors[key];
+                    
+                    const text = document.createElement('span');
+                    text.className = 'text-sm';
+                    text.textContent = s.footerLegend[key];
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(text);
+                    footerLegendContainer.appendChild(item);
+                }
+            }
+
+
+            // === Logique des Modales (Clics) ===
+
+            // Clic sur un jour (délégué à la grille)
+            calendarContainer.addEventListener('click', (e) => {
+                const cell = e.target.closest('.day-cell');
+                if (cell && !cell.classList.contains('unavailable')) {
+                    selectedCell = cell;
+                    const date = cell.dataset.date;
+                    selectedDateInfo = getSpecialDayInfo(new Date(date + 'T12:00:00')); 
+                    
+                    const s = uiStrings[currentLang];
+                    const displayDate = new Date(date + 'T12:00:00').toLocaleDateString(s.locale, { weekday: s.weekDay, year: 'numeric', month: 'long', day: 'numeric' });
+                    modalDateDisplay.textContent = `${s.modalDate}${displayDate}`;
+                    
+                    modalRequestType.value = 'add';
+                    modalTimeWrapper.classList.remove('hidden');
+                    modalReasonWrapper.classList.add('hidden');
+                    modalTimeError.classList.add('hidden');
+                    modalReason.value = '';
+                    populateTimeDropdowns('add');
+                    
+                    modal.classList.remove('hidden');
+                }
+            });
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                selectedCell = null;
+                selectedDateInfo = null;
+            }
+
+            modalCancel.addEventListener('click', closeModal);
+
+            modalConfirm.addEventListener('click', () => {
+                if (selectedCell) {
+                    const date = selectedCell.dataset.date;
+                    const type = modalRequestType.value;
+                    let selectionData = {};
+                    const s = uiStrings[currentLang];
+
+                    if (type === 'remove') {
+                        const reason = modalReason.value.trim();
+                        if (!reason) {
+                            modalTimeError.textContent = s.modalReasonError;
+                            modalTimeError.classList.remove('hidden');
+                            return;
+                        }
+                        modalTimeError.classList.add('hidden');
+                        selectionData = { type: 'remove', reason: reason };
+                    } else {
+                        const startTime = modalTimeStart.value;
+                        const endTime = modalTimeEnd.value;
+                        const startValue = parseFloat(startTime.replace(':', '.5'));
+                        const endValue = parseFloat(endTime.replace(':', '.5'));
+
+                        if (endValue <= startValue) {
+                            modalTimeError.textContent = s.modalTimeError;
+                            modalTimeError.classList.remove('hidden');
+                            return;
+                        }
+                        modalTimeError.classList.add('hidden');
+                        selectionData = { type: type, start: startTime, end: endTime };
+                    }
+
+                    if (!selections[date]) selections[date] = [];
+                    selections[date].push(selectionData);
+                    
+                    // Mettre à jour TOUTES les cellules pour cette date
+                    document.querySelectorAll(`.day-cell[data-date="${date}"]`).forEach(cell => {
+                        cell.className = 'day-cell rounded-md selected';
+                        cell.style.cssText = ''; 
+                    });
+                    
+                    closeModal();
+                }
+            });
+            
+            modalRequestType.addEventListener('change', (e) => {
+                const type = e.target.value;
+                if (type === 'remove') {
+                    modalTimeWrapper.classList.add('hidden');
+                    modalReasonWrapper.classList.remove('hidden');
+                    modalTimeError.classList.add('hidden');
+                    modalReason.focus();
+                } else {
+                    modalTimeWrapper.classList.remove('hidden');
+                    modalReasonWrapper.classList.add('hidden');
+                    modalTimeError.classList.add('hidden');
+                    populateTimeDropdowns(type);
+                }
+            });
+            
+            // Clics pour l'aperçu du footer
+            function toggleFooterPreview(show = true) {
+                if(show) footerPreviewModal.classList.remove('hidden');
+                else footerPreviewModal.classList.add('hidden');
+            }
+            footerToggle.addEventListener('click', () => toggleFooterPreview(true));
+            footerPreviewClose.addEventListener('click', () => toggleFooterPreview(false));
+
+            // Clics pour le Mailto
+            mailtoModalClose.addEventListener('click', () => {
+                mailtoModal.classList.add('hidden');
+            });
+            
+            // Clics pour les champs d'info
+            requesterName.addEventListener('input', validateName);
+            requesterPhone.addEventListener('input', formatAndValidatePhone);
+            langToggle.addEventListener('click', () => {
+                setLanguage(currentLang === 'fr' ? 'en' : 'fr');
+            });
+
+            // === Logique d'Envoi Mailto ===
+            
+            function formatPhoneNumber(phoneStr) {
+                /* Formate le numéro de téléphone (pour l'e-mail) */
+                const cleaned = ('' + phoneStr).replace(/\D/g, '');
+                const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+                if (match) return `${match[1]}-${match[2]}-${match[3]}`;
+                return phoneStr; 
+            }
+            
+            function getReceptionTimestamp() {
+                 const now = new Date();
+                 const s = uiStrings[currentLang];
+                 const optionsDate = { weekday: s.weekDay, year: 'numeric', month: '2-digit', day: '2-digit' };
+                 const datePart = new Intl.DateTimeFormat(s.locale, optionsDate).format(now);
+                 const timePart = now.toLocaleTimeString(s.locale, { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                 return `${datePart}, \n ${s.receptionTimeConnector} ${timePart}`;
+            }
+            
+            function getEmailColor(slot, dayInfo) {
+                if (slot.type === 'remove') return 'var(--special-color)';
+                if (dayInfo.type === 'holiday' || dayInfo.type === 'holiday_period') return 'var(--error-color)';
+                if (slot.type === 'add_high' || dayInfo.type === 'weekend_soon') return 'var(--error-color)';
+                return 'var(--success-color)';
+            }
+
+            confirmReservationBtn.addEventListener('click', () => {
+                const name = requesterName.value.trim();
+                const phone = requesterPhone.value.trim();
+                const availability = requesterAvailability.value.trim();
+                const s = uiStrings[currentLang];
+                
+                messageBox.classList.add('hidden');
+                validateName();
+                formatAndValidatePhone({ target: requesterPhone });
+                const isPhoneValid = /^\d{3}-\d{3}-\d{4}$/.test(phone);
+
+                if (!name || !isPhoneValid) {
+                    showMessage(s.errorNoName, true);
+                    return;
+                }
+                if (Object.keys(selections).length === 0) {
+                    showMessage(s.errorNoSelection, true);
+                    return;
+                }
+
+                // 1. Construction du corps HTML
+                const formattedPhone = formatPhoneNumber(phone);
+                const receptionTime = getReceptionTimestamp().replace('\n', '');
+                let htmlBody = `<table style="width: 100%; border-collapse: collapse; font-family: 'Raleway', sans-serif; color: #333;">`;
+                htmlBody += `<tr><td colspan="5" class="email-divider" style="border: none; text-align: center; padding: 5px 0;">=================================================</td></tr>`;
+                htmlBody += `<tr><td colspan="5" class="email-header" style="font-family: 'Black Ops One', system-ui; font-size: 20px; text-align: center; border: none; padding-bottom: 10px;">Reservations - ${name}</td></tr>`;
+                htmlBody += `<tr><td colspan="5" class="email-divider" style="border: none; text-align: center; padding: 5px 0;">=================================================</td></tr>`;
+                htmlBody += `<tr><td colspan="5" class="email-subheader" style="font-family: 'Raleway', sans-serif; font-size: 14px; text-align: center; border: none; padding-bottom: 5px;">Téléphone : ${formattedPhone}</td></tr>`;
+                if(availability) htmlBody += `<tr><td colspan="5" class="email-subheader" style="font-family: 'Raleway', sans-serif; font-size: 14px; text-align: center; border: none; padding-bottom: 5px;">Disponibilité : ${availability}</td></tr>`;
+                htmlBody += `<tr><td colspan="5" class="email-subheader" style="font-family: 'Raleway', sans-serif; font-size: 14px; text-align: center; border: none; padding-bottom: 15px;"><i>Réception : ${receptionTime}</i></td></tr>`;
+                htmlBody += `<tr style="background-color: #f9f9f9;"><th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: 5%;"></th><th style="border: 1px solid #ddd; padding: 8px; text-align: center;">${s.emailDate}</th><th style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 5%;">${s.emailType}</th><th style="border: 1px solid #ddd; padding: 8px; text-align: center;">${s.emailContent}</th><th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: 5%;"></th></tr>`;
+                
+                const sortedDates = Object.keys(selections).sort();
+                sortedDates.forEach(date => {
+                    const dayInfo = getSpecialDayInfo(new Date(date + 'T12:00:00'));
+                    const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString(s.locale, { weekday: s.weekDay, day: '2-digit', month: 'long', year: 'numeric' });
+                    selections[date].forEach(slot => {
+                         const color = getEmailColor(slot, dayInfo);
+                         const symbol = (slot.type === 'remove') ? '-' : '+';
+                         const content = (slot.type === 'remove') ? slot.reason : `${slot.start} - ${slot.end}`;
+                         htmlBody += `<tr style="color: ${color};"><td style="border: 1px solid #ddd; padding: 8px;"></td><td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${formattedDate}</td><td style="border: 1px solid #ddd; padding: 8px; text-align: center; font-weight: bold; font-size: 1.2rem;">${symbol}</td><td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${content}</td><td style="border: 1px solid #ddd; padding: 8px;"></td></tr>`;
+                    });
+                });
+                htmlBody += `</table>`;
+                
+                // 2. Construction du corps Texte
+                let plainTextBody = `=================================================\nReservations - ${name}\n=================================================\n\n`;
+                plainTextBody += `Téléphone : ${formattedPhone}\n`;
+                if (availability) plainTextBody += `Disponibilité : ${availability}\n`;
+                plainTextBody += `Réception : ${receptionTime}\n\n${s.emailDesiredDates}:\n\n`;
+                sortedDates.forEach(date => {
+                    const formattedDate = new Date(date + 'T12:00:00').toLocaleDateString(s.locale, { weekday: s.weekDay, day: '2-digit', month: 'long', year: 'numeric' });
+                    plainTextBody += `--- ${formattedDate} ---\n`;
+                    selections[date].forEach(slot => {
+                        const symbol = (slot.type === 'remove') ? '-' : '+';
+                        const content = (slot.type === 'remove') ? slot.reason : `${slot.start} - ${slot.end}`;
+                        plainTextBody += ` ${symbol} ${content}\n`;
+                    });
+                    plainTextBody += `\n`;
+                });
+                plainTextBody += `\n${s.emailThanks}`;
+
+                // 3. Afficher la modale Mailto
+                mailtoModalLink.href = `mailto:glaplante@csrlc.ca?subject=${encodeURIComponent('Reservation')}&body=${encodeURIComponent(plainTextBody)}`;
+                mailtoFallbackBody.value = plainTextBody; 
+                mailtoHtmlBody.innerHTML = htmlBody; 
+                mailtoModal.classList.remove('hidden');
+            });
+            
+            function showMessage(message, isError = false) {
+                messageBox.textContent = message;
+                messageBox.classList.remove('hidden');
+                if (isError) {
+                    messageBox.className = 'block max-w-3xl mx-auto mb-4 p-4 rounded-md text-white';
+                    messageBox.style.backgroundColor = 'var(--error-color)';
+                } else {
+                    messageBox.className = 'block max-w-3xl mx-auto mb-4 p-4 rounded-md text-white';
+                    messageBox.style.backgroundColor = 'var(--success-color)';
+                }
+            }
+            
+            // === Initialisation ===
+            populateTimeDropdowns('add');
+            setLanguage('fr'); // Appel initial
+        });
+    </script>
+</body>
+</html>
+
